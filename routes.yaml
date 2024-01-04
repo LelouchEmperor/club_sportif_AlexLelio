@@ -1,5 +1,4 @@
 #Categorie 
-
 creer_categorie:
     path: /categorie/creer
     controller: App\Controller\CategorieController::createCategorie
@@ -15,3 +14,20 @@ supprimer_categorie:
 liste_categories:
     path: /categorie/liste
     controller: App\Controller\CategorieController::listCategories
+
+# Contact
+liste_contacts:
+    path: /contact/liste
+    controller: App\Controller\ContactController::listContacts
+
+creer_contact:
+    path: /contact/creer
+    controller: App\Controller\ContactController::createContact
+
+modifier_contact:
+    path: /contact/modifier/{id}
+    controller: App\Controller\ContactController::updateContact
+
+supprimer_contact:
+    path: /contact/supprimer/{id}
+    controller: App\Controller\ContactController::deleteContact
