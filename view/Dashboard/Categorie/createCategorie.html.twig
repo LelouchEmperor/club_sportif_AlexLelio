@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer Catégorie</title>
+</head>
+<body>
+    <h1>Créer Catégorie</h1>
+
+    <form action="{{ path('creer_categorie') }}" method="post">
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="code_raccourci">Code Raccourci:</label>
+        <input type="text" id="code_raccourci" name="code_raccourci" required>
+
+        <!-- Ajoutez un champ masqué pour l'ID (qui sera vide pour une création) -->
+        <input type="hidden" name="id" value="">
+
+        <button type="submit">Créer</button>
+        <a href="{{ path('liste_categories') }}">Annuler</a>
+    </form>
+</body>
+</html>

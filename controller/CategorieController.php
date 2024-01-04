@@ -1,4 +1,9 @@
 <?php
+namespace App\Controller;
+
+use App\Model\CategorieDAO;
+use App\Model\Categorie;
+use Twig\Environment;
 
 class CategorieController {
     private $categorieDAO;
@@ -7,13 +12,13 @@ class CategorieController {
         $this->categorieDAO = $categorieDAO;
     }
 
-    public function create($nom, $codeRaccourci) {
+    public function createCategorie($nom, $codeRaccourci) {
         // Créer une nouvelle catégorie
         $categorie = new Categorie(null, $nom, $codeRaccourci);
         $this->categorieDAO->create($categorie);
     }
 
-    public function update($id, $nom, $codeRaccourci) {
+    public function updateCategorie($id, $nom, $codeRaccourci) {
         // Mettre à jour une catégorie existante
         $categorie = $this->categorieDAO->getById($id);
         $categorie->setNom($nom);
@@ -21,15 +26,15 @@ class CategorieController {
         $this->categorieDAO->update($categorie);
     }
 
-    public function delete($id) {
+    public function deleteCategorie($id) {
         // Supprimer une catégorie
         $this->categorieDAO->delete($id);
     }
 
-    public function list() {
+    public function listCategorie() {
         // Afficher la liste des catégories
         $categories = $this->categorieDAO->getAll();
         // Appeler une vue pour afficher les catégories
-        include('view/liste_categories.php');
+        include('view/Categorie/listCategorie.html.twig');
     }
 }

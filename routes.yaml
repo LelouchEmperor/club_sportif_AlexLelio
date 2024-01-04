@@ -1,0 +1,17 @@
+#Categorie 
+
+creer_categorie:
+    path: /categorie/creer
+    controller: App\Controller\CategorieController::createCategorie
+
+modifier_categorie:
+    path: /categorie/modifier/{id}
+    controller: App\Controller\CategorieController::updateCategorie
+
+supprimer_categorie:
+    path: /categorie/supprimer/{id}
+    controller: App\Controller\CategorieController::deleteCategorie
+
+liste_categories:
+    path: /categorie/liste
+    controller: App\Controller\CategorieController::listCategories
