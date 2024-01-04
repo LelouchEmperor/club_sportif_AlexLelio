@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer Éducateur</title>
+</head>
+<body>
+    <h1>Créer Éducateur</h1>
+
+    <form action="{{ path('creer_educateur') }}" method="post">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" name="prenom" required>
+
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="numero_tel">Numéro de Téléphone :</label>
+        <input type="tel" id="numero_tel" name="numero_tel" required>
+
+        <label for="mot_de_passe">Mot de Passe :</label>
+        <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+
+        <label for="is_admin">Administrateur :</label>
+        <input type="checkbox" id="is_admin" name="is_admin">
+
+        <!-- Ajoutez un champ masqué pour l'ID (qui sera vide pour une création) -->
+        <input type="hidden" name="id" value="">
+
+        <button type="submit">Créer</button>
+        <a href="{{ path('liste_educateurs') }}">Annuler</a>
+    </form>
+</body>
+</html>

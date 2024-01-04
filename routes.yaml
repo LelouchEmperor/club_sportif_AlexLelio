@@ -31,3 +31,21 @@ modifier_contact:
 supprimer_contact:
     path: /contact/supprimer/{id}
     controller: App\Controller\ContactController::deleteContact
+
+# Educateur
+creer_educateur:
+    path: /educateur/creer
+    controller: App\Controller\EducateurController::createEducateur
+
+modifier_educateur:
+    path: /educateur/modifier/{id}
+    controller: App\Controller\EducateurController::updateEducateur
+
+supprimer_educateur:
+    path: /educateur/supprimer/{id}
+    controller: App\Controller\EducateurController::deleteEducateur
+
+liste_educateurs:
+    path: /educateur/liste
+    controller: App\Controller\EducateurController::listEducateur
+
