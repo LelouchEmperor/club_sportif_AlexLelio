@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Licencié</title>
+</head>
+<body>
+    <h1>Modifier Licencié</h1>
+
+    <form action="{{ path('modifier_licencie', {'id': licencie.id}) }}" method="post">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" value="{{ licencie.nom }}" required>
+
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" name="prenom" value="{{ licencie.prenom }}" required>
+
+        <label for="numero_licence">Numéro de Licence :</label>
+        <input type="text" id="numero_licence" name="numero_licence" value="{{ licencie.numero_licence }}" required>
+
+        <!-- Ajoutez un champ masqué pour l'ID -->
+        <input type="hidden" name="id" value="{{ licencie.id }}">
+
+        <button type="submit">Sauvegarder</button>
+        <a href="{{ path('liste_licencies') }}">Annuler</a>
+    </form>
+</body>
+</html>
