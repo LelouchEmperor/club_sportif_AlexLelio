@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 class EducateurDAO {
     private $db;  // La connexion à la base de données
 

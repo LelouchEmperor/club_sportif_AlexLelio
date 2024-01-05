@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 class ContactDAO {
     private $db;  // La connexion à la base de données
 

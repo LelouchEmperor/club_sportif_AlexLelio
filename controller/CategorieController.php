@@ -2,42 +2,44 @@
 
 namespace App\Controller;
 
-use App\Model\ContactDAO;
-use App\Model\Contact;
+use App\Model\CategorieDAO;
+use App\Model\Categorie;
 use Twig\Environment;
 
-class ContactController {
-    private $contactDAO;
+class CategorieController {
+    private $categorieDAO;
 
-    public function __construct(ContactDAO $contactDAO) {
-        $this->contactDAO = $contactDAO;
+    public function __construct(CategorieDAO $categorieDAO) {
+        $this->categorieDAO = $categorieDAO;
     }
 
-    public function createContact($nom, $prenom, $email, $numeroTel) {
-        // Créer un nouveau contact
-        $contact = new Contact(null, $nom, $prenom, $email, $numeroTel);
-        $this->contactDAO->create($contact);
+    public function createCategorie($nom, $codeRaccourci) {
+        // Créer une nouvelle catégorie
+        $categorie = new Categorie(null, $nom, $codeRaccourci);
+        $this->categorieDAO->create($categorie);
     }
 
-    public function updateContact($id, $nom, $prenom, $email, $numeroTel) {
-        // Mettre à jour un contact existant
-        $contact = $this->contactDAO->getById($id);
-        $contact->setNom($nom);
-        $contact->setPrenom($prenom);
-        $contact->setEmail($email);
-        $contact->setNumeroTel($numeroTel);
-        $this->contactDAO->update($contact);
+    public function updateCategorie($id, $nom, $codeRaccourci) {
+        // Mettre à jour une catégorie existante
+        $categorie = $this->categorieDAO->getById($id);
+        $categorie->setNom($nom);
+        $categorie->setCodeRaccourci($codeRaccourci);
+        $this->categorieDAO->update($categorie);
     }
 
-    public function deleteContact($id) {
-        // Supprimer un contact
-        $this->contactDAO->delete($id);
+    public function deleteCategorie($id) {
+        // Supprimer une catégorie
+        $this->categorieDAO->delete($id);
     }
 
-    public function listContact() {
-        // Afficher la liste des contacts
-        $contacts = $this->contactDAO->getAll();
-        // Appeler une vue pour afficher les contacts
-        include('view/Contact/listContact.html.twig');
+    public function listCategorie() {
+        // Afficher la liste des catégories
+        $categories = $this->categorieDAO->getAll();
+        // Appeler une vue pour afficher les catégories
+        include('view/Categorie/listCategorie.html.twig');
+    }
+
+    public function showCreateCategorieForm() {
+        include('view/Categorie/createCategorie.html.twig');
     }
 }
