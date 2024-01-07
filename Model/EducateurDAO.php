@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Model\Educateur;
+
 class EducateurDAO {
     private $db;  // La connexion à la base de données
 

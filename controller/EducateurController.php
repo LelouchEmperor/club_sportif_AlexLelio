@@ -6,7 +6,7 @@ use App\Model\EducateurDAO;
 use App\Model\Educateur;
 use Twig\Environment;
 
-include_once('Model/EducateurDAO.php');
+require_once('Model/EducateurDAO.php');
 
 class EducateurController {
     private $educateurDAO;

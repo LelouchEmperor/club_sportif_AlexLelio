@@ -1,5 +1,21 @@
 <?php
 session_start();
+
+spl_autoload_register(function ($class) {
+    // Convertir les antislashes en slashes dans le nom de la classe
+    $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+
+    // Construire le chemin du fichier de classe
+    $classPath = __DIR__ . DIRECTORY_SEPARATOR . $class . '.php';
+
+    // Inclure la classe si elle existe
+    if (file_exists($classPath)) {
+        include $classPath;
+    } else {
+        echo "Fichier non trouvé : $classPath";
+    }
+});
+
 require_once 'config.php';
 
 include("View/Structure/entete.php");
@@ -13,6 +29,8 @@ $parts = explode('/', $path);
 
 // Utilise la première partie du chemin comme paramètre de page
 $page = !empty($parts[0]) ? $parts[0] : 'accueil';
+
+$authentificationController = new \Controller\AuthentificationController(new \Model\EducateurDAO($db));
 
 // Définir un tableau de correspondance entre les pages et les contrôleurs
 $controllerMapping = [
@@ -35,16 +53,21 @@ $controllerMapping = [
 // Vérifier si la page demandée est définie dans le mapping
 if (array_key_exists($page, $controllerMapping)) {
     $controllerClassName = "App\\Controller\\" . $controllerMapping[$page];
-    $daoClassName = "App\\Model\\" . str_replace('Controller', '', $controllerMapping[$page]) . "DAO";
-
-    // Inclure le fichier du contrôleur et créer une instance
-    include("Controller/{$controllerMapping[$page]}.php");
-    $controller = new $controllerClassName(new $daoClassName($db));
-
+    
     // Décider quelle méthode appeler en fonction de l'action de l'URL
     $action = decideActionFromPage($page);
+
+    if ($page === 'login') {
+        // Si la page est 'login', instanciez le contrôleur avec EducateurDAO
+        $controller = new $controllerClassName(new EducateurDAO($db));
+    } else {
+        // Sinon, instanciez le contrôleur sans EducateurDAO (ou avec d'autres paramètres nécessaires)
+        $controller = new $controllerClassName();
+    }
+
+    // Appeler la méthode
     $controller->{$action}();
-} 
+}
 
 function decideActionFromPage($page) {
 
@@ -54,8 +77,10 @@ function decideActionFromPage($page) {
         return 'displayFormUpdate';
     } elseif (stripos($page, 'list') !== false) {
         return 'displayList';
+    } elseif ($page === 'login') {  
+        return 'displayFormLogin';
     } else {
-        return 'displayFormLogin';  // Par défaut, si aucune correspondance n'est trouvée
+        return 'display';  // Par défaut, si aucune correspondance n'est trouvée
     }
 }
 

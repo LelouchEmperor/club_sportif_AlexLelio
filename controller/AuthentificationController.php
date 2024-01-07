@@ -1,14 +1,17 @@
 <?php
 namespace App\Controller;
 
-use App\Model\EducateurDAO;
+use Model\EducateurDAO;
+
+require_once("Model/EducateurDAO.php");
 
 class AuthentificationController {
     private $educateurDAO;
 
     public function __construct(EducateurDAO $educateurDAO = null) {
-        $this->educateurDAO = $educateurDAO ?: new EducateurDAO($db);
+        $this->educateurDAO = $educateurDAO ?: new EducateurDAO(); 
     }
+    
 
     public function authentifierEducateur($email, $motDePasse) {
         // Vérifier si l'éducateur existe et si le mot de passe correspond
@@ -35,8 +38,11 @@ class AuthentificationController {
     }
 
     public function displayFormLogin(){
+        if (isset($_SESSION['educateur_id'])) {
+            header('Location: dashboard.php'); 
+        }
         // Afficher le formulaire de création d'un éducateur
-        include('view/Authentification/login.php');
+        include('View/Authentification/login.php');
     }
 }
 ?>

@@ -2,6 +2,9 @@
 
 namespace App\Model;
 
+use App\Model\Contact;
+use App\Model\Categorie;
+
 class LicencieDAO {
     private $db;  // La connexion à la base de données
 

@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Model\Contact;
+
 class ContactDAO {
     private $db;  // La connexion à la base de données
 
