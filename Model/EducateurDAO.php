@@ -17,7 +17,7 @@ class EducateurDAO {
         $motDePasse = $educateur->getMotDePasse();
         $isAdmin = $educateur->getIsAdmin();
 
-        $query = "INSERT INTO educateurs (nom, prenom, email, numero_tel, mot_de_passe, is_admin) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO educateur (nom, prenom, email, numero_tel, mot_de_passe, is_admin) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("sssssi", $nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin);
 
@@ -33,7 +33,7 @@ class EducateurDAO {
         $motDePasse = $educateur->getMotDePasse();
         $isAdmin = $educateur->getIsAdmin();
 
-        $query = "UPDATE educateurs SET nom=?, prenom=?, email=?, numero_tel=?, mot_de_passe=?, is_admin=? WHERE id=?";
+        $query = "UPDATE educateur SET nom=?, prenom=?, email=?, numero_tel=?, mot_de_passe=?, is_admin=? WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("sssssi", $nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin, $id);
 
@@ -41,7 +41,7 @@ class EducateurDAO {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM educateurs WHERE id=?";
+        $query = "DELETE FROM educateur WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -49,7 +49,7 @@ class EducateurDAO {
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM educateurs WHERE id=?";
+        $query = "SELECT * FROM educateur WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -65,7 +65,7 @@ class EducateurDAO {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM educateurs";
+        $query = "SELECT * FROM educateur";
         $result = $this->db->query($query);
 
         $educateurs = array();

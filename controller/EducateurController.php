@@ -6,11 +6,13 @@ use App\Model\EducateurDAO;
 use App\Model\Educateur;
 use Twig\Environment;
 
+include_once('Model/EducateurDAO.php');
+
 class EducateurController {
     private $educateurDAO;
 
-    public function __construct(EducateurDAO $educateurDAO) {
-        $this->educateurDAO = $educateurDAO;
+    public function __construct(EducateurDAO $educateurDAO = null) {
+        $this->educateurDAO = $educateurDAO?: new EducateurDAO();
     }
 
     public function createEducateur($nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin) {
@@ -40,6 +42,24 @@ class EducateurController {
         // Afficher la liste des éducateurs
         $educateurs = $this->educateurDAO->getAll();
         // Appeler une vue pour afficher les éducateurs
-        include('view/Educateur/listEducateur.html.twig');
+        include('view/Educateur/listEducateur.php');
     }
+
+    public function displayFormUpdate(){
+        // Afficher le formulaire de mise à jour d'un éducateur
+        $educateur = $this->educateurDAO->getById($_GET['id']);
+        include('view/Educateur/updateEducateur.php');
+    }
+
+    public function displayFormCreate(){
+        // Afficher le formulaire de création d'un éducateur
+        include('view/Educateur/createEducateur.php');
+    }
+
+    public function displayList(){
+        // Afficher la liste des éducateurs
+        $educateurs = $this->educateurDAO->getAll();
+        include('view/Educateur/listEducateur.php');
+    }
+    
 }

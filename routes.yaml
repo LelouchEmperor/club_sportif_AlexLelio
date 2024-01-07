@@ -1,3 +1,0 @@
-creer_categorie_form:
-    path: /categorie/creer/form
-    controller: App\Controller\CategorieController::showCreateCategorieForm

@@ -4,19 +4,28 @@ namespace App\Controller;
 
 use App\Model\CategorieDAO;
 use App\Model\Categorie;
-use Twig\Environment;
+
+include_once('Model/CategorieDAO.php');
+include_once('Model/Categorie.php');
 
 class CategorieController {
     private $categorieDAO;
 
-    public function __construct(CategorieDAO $categorieDAO) {
-        $this->categorieDAO = $categorieDAO;
+    public function __construct(CategorieDAO $categorieDAO = null) {
+        $this->categorieDAO = $categorieDAO ?: new CategorieDAO($db);
     }
 
-    public function createCategorie($nom, $codeRaccourci) {
-        // Créer une nouvelle catégorie
-        $categorie = new Categorie(null, $nom, $codeRaccourci);
-        $this->categorieDAO->create($categorie);
+    public function createCategorie() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nom = $_POST['nom'];
+            $codeRaccourci = $_POST['codeRaccourci'];
+    
+            // Créer une nouvelle catégorie
+            $categorie = new Categorie(null, $nom, $codeRaccourci);
+    
+            // Insérer la catégorie dans la base de données
+            $this->categorieDAO->create($categorie);
+        }
     }
 
     public function updateCategorie($id, $nom, $codeRaccourci) {
@@ -33,13 +42,25 @@ class CategorieController {
     }
 
     public function listCategorie() {
-        // Afficher la liste des catégories
         $categories = $this->categorieDAO->getAll();
-        // Appeler une vue pour afficher les catégories
-        include('view/Categorie/listCategorie.html.twig');
+        echo $twig->render('view/Categorie/listCategorie.php', ['categories' => $categories]);
+        include('view/Categorie/listCategorie.php');
     }
 
-    public function showCreateCategorieForm() {
-        include('view/Categorie/createCategorie.html.twig');
+    public function displayFormUpdate(){
+        // Afficher le formulaire de mise à jour d'une catégorie
+        $categorie = $this->categorieDAO->getById($_GET['id']);
+        include('view/Categorie/updateCategorie.php');
+    }
+
+    public function displayFormCreate(){
+        // Afficher le formulaire de création d'une catégorie
+        include('view/Categorie/createCategorie.php');
+    }
+
+    public function displayList(){
+        // Afficher la liste des catégories
+        $categories = $this->categorieDAO->getAll();
+        include('view/Categorie/listCategorie.php');
     }
 }

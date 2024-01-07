@@ -6,12 +6,16 @@ use App\Model\LicencieDAO;
 use App\Model\Licencie;
 use Twig\Environment;
 
+include_once('Model/LicencieDAO.php');
+    
 class LicencieController {
     private $licencieDAO;
 
-    public function __construct(LicencieDAO $licencieDAO) {
-        $this->licencieDAO = $licencieDAO;
+
+    public function __construct(LicencieDAO $licencieDAO = null) {
+        $this->licencieDAO = $licencieDAO ?: new LicencieDAO();
     }
+    
 
     public function createLicencie($nom, $prenom, $numeroLicence, $contactId, $categorieId) {
         // Créer un nouveau licencié
@@ -39,6 +43,24 @@ class LicencieController {
         // Afficher la liste des licenciés
         $licencies = $this->licencieDAO->getAll();
         // Appeler une vue pour afficher les licenciés
-        include('view/Licencie/listLicencie.html.twig');
+        include('view/Licencie/listLicencie.php');
     }
+
+    public function displayFormUpdate(){
+        // Afficher le formulaire de mise à jour d'un licencié
+        $licencie = $this->licencieDAO->getById($_GET['id']);
+        include('view/Licencie/updateLicencie.php');
+    }
+
+    public function displayFormCreate(){
+        // Afficher le formulaire de création d'un licencié
+        include('view/Licencie/createLicencie.php');
+    }
+
+    public function displayList(){
+        // Afficher la liste des licenciés
+        $licencies = $this->licencieDAO->getAll();
+        include('view/Licencie/listLicencie.php');
+    }
+    
 }

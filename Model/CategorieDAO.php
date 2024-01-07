@@ -15,11 +15,16 @@ class CategorieDAO {
         $nom = $categorie->getNom();
         $codeRaccourci = $categorie->getCodeRaccourci();
 
-        $query = "INSERT INTO categories (nom, code_raccourci) VALUES (?, ?)";
+        $query = "INSERT INTO categorie (nom, code_raccourci) VALUES (?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ss", $nom, $codeRaccourci);
 
         return $stmt->execute();
+
+        if (!$stmt->execute()) {
+            echo "Erreur lors de l'exécution de la requête : " . $stmt->error;
+        }
+        
     }
 
     public function update(Categorie $categorie) {
@@ -27,7 +32,7 @@ class CategorieDAO {
         $nom = $categorie->getNom();
         $codeRaccourci = $categorie->getCodeRaccourci();
 
-        $query = "UPDATE categories SET nom=?, code_raccourci=? WHERE id=?";
+        $query = "UPDATE categorie SET nom=?, code_raccourci=? WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ssi", $nom, $codeRaccourci, $id);
 
@@ -35,7 +40,7 @@ class CategorieDAO {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM categories WHERE id=?";
+        $query = "DELETE FROM categorie WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -43,7 +48,7 @@ class CategorieDAO {
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM categories WHERE id=?";
+        $query = "SELECT * FROM categorie WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -59,7 +64,7 @@ class CategorieDAO {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM categories";
+        $query = "SELECT * FROM categorie";
         $result = $this->db->query($query);
 
         $categories = array();
@@ -69,6 +74,8 @@ class CategorieDAO {
                 $categories[] = new Categorie($row['id'], $row['nom'], $row['code_raccourci']);
             }
         }
+
+        var_dump($categories);
 
         return $categories;
     }

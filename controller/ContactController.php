@@ -6,11 +6,13 @@ use App\Model\ContactDAO;
 use App\Model\Contact;
 use Twig\Environment;
 
+include_once('Model/ContactDAO.php');
+
 class ContactController {
     private $contactDAO;
 
-    public function __construct(ContactDAO $contactDAO) {
-        $this->contactDAO = $contactDAO;
+    public function __construct(ContactDAO $contactDAO = null) {
+        $this->contactDAO = $contactDAO?: new ContactDAO();
     }
 
     public function createContact($nom, $prenom, $email, $numeroTel) {
@@ -38,6 +40,23 @@ class ContactController {
         // Afficher la liste des contacts
         $contacts = $this->contactDAO->getAll();
         // Appeler une vue pour afficher les contacts
-        include('view/Contact/listContact.html.twig');
+        include('view/Contact/listContact.php');
+    }
+
+    public function displayFormUpdate(){
+        // Afficher le formulaire de mise à jour d'un contact
+        $contact = $this->contactDAO->getById($_GET['id']);
+        include('view/Contact/updateContact.php');
+    }
+
+    public function displayFormCreate(){
+        // Afficher le formulaire de création d'un contact
+        include('view/Contact/createContact.php');
+    }
+
+    public function displayList(){
+        // Afficher la liste des contacts
+        $contacts = $this->contactDAO->getAll();
+        include('view/Contact/listContact.php');
     }
 }

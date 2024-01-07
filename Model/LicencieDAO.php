@@ -16,7 +16,7 @@ class LicencieDAO {
         $contactId = $licencie->getContactId();
         $categorieId = $licencie->getCategorieId();
 
-        $query = "INSERT INTO licencies (nom, prenom, numero_licence, contact_id, categorie_id) VALUES (?, ?, ?, ?, ?)";
+        $query = "INSERT INTO licencie (nom, prenom, numero_licence, contact_id, categorie_id) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ssiii", $nom, $prenom, $numeroLicence, $contactId, $categorieId);
 
@@ -31,7 +31,7 @@ class LicencieDAO {
         $contactId = $licencie->getContactId();
         $categorieId = $licencie->getCategorieId();
 
-        $query = "UPDATE licencies SET nom=?, prenom=?, numero_licence=?, contact_id=?, categorie_id=? WHERE id=?";
+        $query = "UPDATE licencie SET nom=?, prenom=?, numero_licence=?, contact_id=?, categorie_id=? WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ssiiii", $nom, $prenom, $numeroLicence, $contactId, $categorieId, $id);
 
@@ -39,7 +39,7 @@ class LicencieDAO {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM licencies WHERE id=?";
+        $query = "DELETE FROM licencie WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -47,7 +47,7 @@ class LicencieDAO {
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM licencies WHERE id=?";
+        $query = "SELECT * FROM licencie WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -63,7 +63,7 @@ class LicencieDAO {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM licencies";
+        $query = "SELECT * FROM licencie";
         $result = $this->db->query($query);
 
         $licencies = array();

@@ -3,17 +3,17 @@
 namespace App\Model;
 
 class Educateur {
-    private $id;
-    private $email;
-    private $motDePasse;
-    private $estAdministrateur;
+    private $id = 0;
+    private $email = "";
+    private $motDePasse = "";
+    private $isAdmin = false;
     private $licencie; // Objet de type Licencie
 
-    public function __construct($id, $email, $motDePasse, $estAdministrateur, Licencie $licencie) {
+    public function __construct($id, $email, $motDePasse, $isAdmin, Licencie $licencie) {
         $this->id = $id;
         $this->email = $email;
         $this->motDePasse = $motDePasse;
-        $this->estAdministrateur = $estAdministrateur;
+        $this->isAdmin = $isAdmin;
         $this->licencie = $licencie;
     }
 
@@ -29,8 +29,8 @@ class Educateur {
         return $this->motDePasse;
     }
 
-    public function getEstAdministrateur() {
-        return $this->estAdministrateur;
+    public function getIsAdmin() {
+        return $this->isAdmin;
     }
 
     public function getLicencie() {
@@ -45,8 +45,8 @@ class Educateur {
         $this->motDePasse = $motDePasse;
     }
 
-    public function setEstAdministrateur($estAdministrateur) {
-        $this->estAdministrateur = $estAdministrateur;
+    public function setIsAdmin($isAdmin) {
+        $this->isAdmin = $isAdmin;
     }
 
     public function setLicencie(Licencie $licencie) {

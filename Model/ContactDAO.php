@@ -15,7 +15,7 @@ class ContactDAO {
         $email = $contact->getEmail();
         $numeroTel = $contact->getNumeroTel();
 
-        $query = "INSERT INTO contacts (nom, prenom, email, numero_tel) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO contact (nom, prenom, email, numero_tel) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ssss", $nom, $prenom, $email, $numeroTel);
 
@@ -29,7 +29,7 @@ class ContactDAO {
         $email = $contact->getEmail();
         $numeroTel = $contact->getNumeroTel();
 
-        $query = "UPDATE contacts SET nom=?, prenom=?, email=?, numero_tel=? WHERE id=?";
+        $query = "UPDATE contact SET nom=?, prenom=?, email=?, numero_tel=? WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("ssssi", $nom, $prenom, $email, $numeroTel, $id);
 
@@ -37,7 +37,7 @@ class ContactDAO {
     }
 
     public function delete($id) {
-        $query = "DELETE FROM contacts WHERE id=?";
+        $query = "DELETE FROM contact WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -45,7 +45,7 @@ class ContactDAO {
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM contacts WHERE id=?";
+        $query = "SELECT * FROM contact WHERE id=?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param("i", $id);
 
@@ -61,7 +61,7 @@ class ContactDAO {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM contacts";
+        $query = "SELECT * FROM contact";
         $result = $this->db->query($query);
 
         $contacts = array();
