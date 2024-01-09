@@ -22,8 +22,8 @@ if (!isset($_SESSION['utilisateur_id'])) {
         <?php foreach ($contacts as $contact): ?>
             <li>
                 <?= $contact->getPrenom() ?> <?= $contact->getNom() ?> (<?= $contact->getEmail() ?>)
-                <a href="?action=modifier&id=<?= $contact->getId() ?>">Modifier</a>
-                <a href="?action=supprimer&id=<?= $contact->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">Supprimer</a>
+                <a href="index.php?action=displayFormUpdate&id=<?= $contact->getId() ?>">Modifier</a>
+                <a href="index.php?action=delete&id=<?= $contact->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">Supprimer</a>
             </li>
         <?php endforeach; ?>
     </ul>
