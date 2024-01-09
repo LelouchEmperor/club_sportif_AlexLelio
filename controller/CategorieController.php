@@ -15,17 +15,10 @@ class CategorieController {
         $this->categorieDAO = new CategorieDAO($db);
     }
 
-    public function createCategorie() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nom = $_POST['nom'];
-            $codeRaccourci = $_POST['codeRaccourci'];
-    
-            // Créer une nouvelle catégorie
-            $categorie = new Categorie(null, $nom, $codeRaccourci);
-    
-            // Insérer la catégorie dans la base de données
-            $this->categorieDAO->create($categorie);
-        }
+    public function createCategorie($nom, $codeRaccourci) {
+        // Utiliser le DAO pour créer une nouvelle catégorie
+        $categorie = new Categorie(null, $nom, $codeRaccourci);
+        $this->categorieDAO->create($categorie);
     }
 
     public function updateCategorie($id, $nom, $codeRaccourci) {
