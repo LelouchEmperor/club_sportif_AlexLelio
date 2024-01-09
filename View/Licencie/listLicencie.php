@@ -22,8 +22,8 @@ if (!isset($_SESSION['utilisateur_id'])) {
         <?php foreach ($licencies as $licencie): ?>
             <li>
                 <?= $licencie->getPrenom() ?> <?= $licencie->getNom() ?> (<?= $licencie->getNumeroLicence() ?>)
-                <a href="?action=modifier&id=<?= $licencie->getId() ?>">Modifier</a>
-                <a href="?action=supprimer&id=<?= $licencie->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce licencié ?')">Supprimer</a>
+                <a href="index.php?action=displayFormUpdateLicencie&id=<?= $licencie->getId() ?>">Modifier</a>
+                <a href="index.php?action=deleteLicencie&id=<?= $licencie->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce licencié ?')">Supprimer</a>
             </li>
         <?php endforeach; ?>
     </ul>
