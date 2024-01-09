@@ -22,8 +22,8 @@ if (!isset($_SESSION['utilisateur_id'])) {
         <?php foreach ($categories as $categorie): ?>
             <li>
                 <?php echo $categorie->getNom(); ?> (<?php echo $categorie->getCodeRaccourci(); ?>)
-                <a href="?action=update&id=<?php echo $categorie->getId(); ?>">Modifier</a>
-                <a href="?action=delete&id=<?php echo $categorie->getId(); ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
+                <a href="index.php?action=displayFormUpdate&id=<?php echo $categorie->getId(); ?>">Modifier</a>
+                <a href="index.php?action=delete&id=<?php echo $categorie->getId(); ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
             </li>
         <?php endforeach; ?>
     </ul>
