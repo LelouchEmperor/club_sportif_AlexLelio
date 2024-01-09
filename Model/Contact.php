@@ -1,7 +1,6 @@
 <?php 
 
-namespace App\Model;
-
+namespace Model;
 class Contact {
     private $id;
     private $nom;

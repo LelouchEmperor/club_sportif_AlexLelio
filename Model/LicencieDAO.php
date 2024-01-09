@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Model;
-
-use App\Model\Contact;
-use App\Model\Categorie;
+namespace Model;
+use Model\Contact;
+use Model\Categorie;
 
 class LicencieDAO {
     private $db;  // La connexion à la base de données
@@ -76,7 +75,6 @@ class LicencieDAO {
                 $licencies[] = new Licencie($row['id'], $row['nom'], $row['prenom'], $row['numero_licence'], $row['contact_id'], $row['categorie_id']);
             }
         }
-
         return $licencies;
     }
 }

@@ -10,10 +10,11 @@ require_once 'Controller/AuthentificationController.php';
 $db = new mysqli("localhost", "root", "", "club_sportif");
 
 // Créer une instance du contrôleur d'authentification
-$authentificationController = new AuthentificationController(new EducateurDAO($db));
+$authentificationController = new \Controller\AuthentificationController(new \Model\EducateurDAO($db));
 
 // Traitement du formulaire de connexion
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo 'Formulaire soumis';
     $email = $_POST['email'];
     $motDePasse = $_POST['mot_de_passe'];
 

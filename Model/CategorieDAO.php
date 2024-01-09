@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Model;
-
-use App\Model\Categorie;
+namespace Model;
+use Model\Categorie;
 
 class CategorieDAO {
     private $db;  // La connexion à la base de données

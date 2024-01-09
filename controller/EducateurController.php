@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace Controller;
 
-use App\Model\EducateurDAO;
-use App\Model\Educateur;
+use Model\EducateurDAO;
+use Model\Educateur;
 use Twig\Environment;
 
 require_once('Model/EducateurDAO.php');
@@ -11,8 +11,8 @@ require_once('Model/EducateurDAO.php');
 class EducateurController {
     private $educateurDAO;
 
-    public function __construct(EducateurDAO $educateurDAO = null) {
-        $this->educateurDAO = $educateurDAO?: new EducateurDAO();
+    public function __construct($db) {
+        $this->educateurDAO = new EducateurDAO($db);
     }
 
     public function createEducateur($nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin) {

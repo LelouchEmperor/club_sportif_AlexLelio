@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace Controller;
 
-use App\Model\CategorieDAO;
-use App\Model\Categorie;
+use Model\CategorieDAO;
+use Model\Categorie;
 
 include_once('Model/CategorieDAO.php');
 include_once('Model/Categorie.php');
@@ -11,8 +11,8 @@ include_once('Model/Categorie.php');
 class CategorieController {
     private $categorieDAO;
 
-    public function __construct(CategorieDAO $categorieDAO = null) {
-        $this->categorieDAO = $categorieDAO ?: new CategorieDAO($db);
+    public function __construct($db) {
+        $this->categorieDAO = new CategorieDAO($db);
     }
 
     public function createCategorie() {

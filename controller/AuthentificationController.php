@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller;
+namespace Controller;
 
 use Model\EducateurDAO;
 
@@ -16,26 +16,29 @@ class AuthentificationController {
     public function authentifierEducateur($email, $motDePasse) {
         // Vérifier si l'éducateur existe et si le mot de passe correspond
         $educateur = $this->educateurDAO->getByEmail($email);
+    
+        var_dump($educateur); // Ajouter cette ligne pour déboguer
 
         if ($educateur && password_verify($motDePasse, $educateur->getMotDePasse())) {
-            // Connexion réussie
-            $_SESSION['educateur_id'] = $educateur->getId();
-
+            // Vérifier si l'éducateur est un administrateur
             if ($educateur->isAdmin()) {
-                // Rediriger vers la page d'administration
-                header('Location: dashboard.php');
+                // Connexion réussie pour un administrateur
+                $_SESSION['educateur_id'] = $educateur->getId();
+                header('Location: /dashboard');
                 exit();
             } else {
-                // Rediriger vers la page utilisateur normale
-                header('Location: login.php');
+                // Mauvais rôle d'utilisateur, rediriger vers la page d'accueil avec erreur
+                header('Location: login?erreur=2'); 
                 exit();
             }
         } else {
-            // Mauvaises informations d'identification, rediriger vers la page de connexion
-            header('Location: login.php?erreur=1');
+            // Mauvaises informations d'identification, rediriger vers la page de connexion avec erreur
+            header('Location: login?erreur=1');
             exit();
         }
     }
+    
+    
 
     public function displayFormLogin(){
         if (isset($_SESSION['educateur_id'])) {

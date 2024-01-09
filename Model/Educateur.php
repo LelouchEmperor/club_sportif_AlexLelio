@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Model;
-
+namespace Model;
 class Educateur {
     private $id = 0;
     private $email = "";

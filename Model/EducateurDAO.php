@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Model;
+namespace Model;
 
-use App\Model\Educateur;
+use Model\Educateur;
 
 class EducateurDAO {
     private $db;  // La connexion à la base de données
@@ -79,5 +79,20 @@ class EducateurDAO {
         }
 
         return $educateurs;
+    }
+
+    public function getByEmail($email) {
+        $query = "SELECT * FROM educateur WHERE email=?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $email);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return new Educateur($row['id'], $row['nom'], $row['prenom'], $row['email'], $row['mot_de_passe'], $row['is_admin']);        }
+
+        return null;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace Controller;
 
-use App\Model\LicencieDAO;
-use App\Model\Licencie;
+use Model\LicencieDAO;
+use Model\Licencie;
 use Twig\Environment;
 
 include_once('Model/LicencieDAO.php');
@@ -11,9 +11,8 @@ include_once('Model/LicencieDAO.php');
 class LicencieController {
     private $licencieDAO;
 
-
-    public function __construct(LicencieDAO $licencieDAO = null) {
-        $this->licencieDAO = $licencieDAO ?: new LicencieDAO();
+    public function __construct($db) {
+        $this->licencieDAO = new LicencieDAO($db);
     }
     
 

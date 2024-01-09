@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace Controller;
 
-use App\Model\ContactDAO;
-use App\Model\Contact;
+use Model\ContactDAO;
+use Model\Contact;
 use Twig\Environment;
 
 include_once('Model/ContactDAO.php');
@@ -11,8 +11,8 @@ include_once('Model/ContactDAO.php');
 class ContactController {
     private $contactDAO;
 
-    public function __construct(ContactDAO $contactDAO = null) {
-        $this->contactDAO = $contactDAO?: new ContactDAO();
+    public function __construct($db) {
+        $this->contactDAO = new ContactDAO($db);
     }
 
     public function createContact($nom, $prenom, $email, $numeroTel) {

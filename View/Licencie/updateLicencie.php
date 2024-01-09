@@ -1,9 +1,9 @@
 <?php
 // Vérifier si l'utilisateur est connecté
 session_start();
-if (!isset($_SESSION['utilisateur_connecte'])) {
+if (!isset($_SESSION['utilisateur_id'])) {
     // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-    header('Location: login.php');
+    header('Location: login');
     exit();
 }
 ?>
@@ -29,7 +29,7 @@ if (!isset($_SESSION['utilisateur_connecte'])) {
         <input type="text" id="numero_licence" name="numero_licence" value="" required>
 
         <button type="submit">Sauvegarder</button>
-        <a href="listeLicencie">Annuler</a>
+        <a href="listLicencie">Annuler</a>
     </form>
 </body>
 </html>

@@ -23,6 +23,12 @@ include("View/Structure/entete.php");
 // Créer une connexion à la base de données (remplacez ces valeurs par les vôtres)
 $db = new mysqli("localhost", "root", "", "club_sportif");
 
+$categorieController = new \Controller\CategorieController(new \Model\CategorieDAO($db));
+$contactController = new \Controller\ContactController(new \Model\ContactDAO($db));
+$educateurController = new \Controller\EducateurController(new \Model\EducateurDAO($db));
+$licencieController = new \Controller\LicencieController(new \Model\LicencieDAO($db));
+
+
 // Récupère le chemin après le nom de domaine (par exemple, localhost/club_sportif/connexion)
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $parts = explode('/', $path);
@@ -52,17 +58,17 @@ $controllerMapping = [
 
 // Vérifier si la page demandée est définie dans le mapping
 if (array_key_exists($page, $controllerMapping)) {
-    $controllerClassName = "App\\Controller\\" . $controllerMapping[$page];
+    $controllerClassName = "Controller\\" . $controllerMapping[$page];
     
     // Décider quelle méthode appeler en fonction de l'action de l'URL
     $action = decideActionFromPage($page);
 
     if ($page === 'login') {
         // Si la page est 'login', instanciez le contrôleur avec EducateurDAO
-        $controller = new $controllerClassName(new EducateurDAO($db));
+        $controller = new \Controller\AuthentificationController(new \Model\EducateurDAO($db));
     } else {
         // Sinon, instanciez le contrôleur sans EducateurDAO (ou avec d'autres paramètres nécessaires)
-        $controller = new $controllerClassName();
+        $controller = new $controllerClassName($db);
     }
 
     // Appeler la méthode
@@ -70,19 +76,19 @@ if (array_key_exists($page, $controllerMapping)) {
 }
 
 function decideActionFromPage($page) {
-
     if (stripos($page, 'create') !== false) {
         return 'displayFormCreate';
     } elseif (stripos($page, 'update') !== false || stripos($page, 'modifier') !== false) {
         return 'displayFormUpdate';
     } elseif (stripos($page, 'list') !== false) {
         return 'displayList';
-    } elseif ($page === 'login') {  
+    } elseif ($page === 'login' || $page === 'accueil') {  
         return 'displayFormLogin';
     } else {
         return 'display';  // Par défaut, si aucune correspondance n'est trouvée
     }
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
