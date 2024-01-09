@@ -76,11 +76,11 @@ if (array_key_exists($page, $controllerMapping)) {
 }
 
 function decideActionFromPage($page) {
-    if (stripos($page, 'create') !== false) {
+    if (stripos($page, 'create') !== false || stripos($page, 'creer') !== false)) {
         return 'displayFormCreate';
     } elseif (stripos($page, 'update') !== false || stripos($page, 'modifier') !== false) {
         return 'displayFormUpdate';
-    } elseif (stripos($page, 'list') !== false) {
+    } elseif (stripos($page, 'list') !== false || stripos($page, 'liste') !== false)) {
         return 'displayList';
     } elseif ($page === 'login' || $page === 'accueil') {  
         return 'displayFormLogin';
@@ -172,28 +172,44 @@ if (isset($_GET['action'])) {
     switch ($action) {
         case 'deleteCategorie':
             $id = $_GET['id'];
-            $controller = new CategorieController();
-            $controller->deleteCategorie($id);
+            $categorieController->deleteCategorie($id);
             break;
         
         case 'deleteEducateur':
             $id = $_GET['id'];
-            $controller = new EducateurController();
-            $controller->deleteEducateur($id);
+            $deleteController->deleteEducateur($id);
             break;
         
         case 'deleteContact':
             $id = $_GET['id'];
-            $controller = new ContactController();
-            $controller->deleteContact($id);
+            $contactController->deleteContact($id);
             break;
         
         case 'deleteLicencie':
             $id = $_GET['id'];
-            $controller = new LicencieController();
-            $controller->deleteLicencie($id);
+            $LicencieController->deleteLicencie($id);
             break;
-    }
+
+        case 'displayFormUpdateCategorie':
+                $id = $_GET['id'];
+                $categorieController->displayFormUpdate($id);
+                break;
+
+        case 'displayFormUpdateLicencie':
+                $id = $_GET['id'];
+                $licencieController->displayFormUpdate($id);
+                break;
+        
+         case 'displayFormUpdateEducateur':
+                $id = $_GET['id'];
+                $educateurController->displayFormUpdate($id);
+                break;
+
+        case 'displayFormUpdateContact':
+                $id = $_GET['id'];
+                $contactController->displayFormUpdate($id);
+                break;
+        }
 }
 
 
