@@ -11,10 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     
     <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-        }
-
+        
         /* Styles pour le pied de page */
         footer {
             background-color: #333; /* Couleur de fond */
@@ -28,9 +25,7 @@
     </style>
 </head>
 <body>
-    <header class="bg-primary text-white text-center py-5">
-        <h1 class="display-1 font-weight-bold">Club Sportif</h1>
-    </header>
+
 
     <!-- Le reste du contenu de votre page ici -->
 

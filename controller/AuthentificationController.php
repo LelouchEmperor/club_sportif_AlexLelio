@@ -24,7 +24,7 @@ class AuthentificationController {
             if ($educateur->isAdmin()) {
                 // Connexion réussie pour un administrateur
                 $_SESSION['educateur_id'] = $educateur->getId();
-                header('Location: /dashboard');
+                header('Location: /');
                 exit();
             } else {
                 // Mauvais rôle d'utilisateur, rediriger vers la page d'accueil avec erreur
@@ -42,7 +42,7 @@ class AuthentificationController {
 
     public function displayFormLogin(){
         if (isset($_SESSION['educateur_id'])) {
-            header('Location: dashboard.php'); 
+            header('Location: Welcome.php'); 
         }
         // Afficher le formulaire de création d'un éducateur
         include('View/Authentification/login.php');

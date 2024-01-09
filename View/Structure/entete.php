@@ -16,17 +16,20 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Votre Logo ou Titre</a>
+    <a class="navbar-brand" href="#">Club sportif</a>
     <!-- Utiliser la classe 'navbar-nav' pour centrer les éléments -->
     <ul class="navbar-nav">
         <li class="nav-item active">
-            <a class="nav-link" href="index.php?action=listCategorie">Categorie</a>
+            <a class="nav-link" href="listCategorie">Categorie</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?action=listLicencie">Licencie</a>
+            <a class="nav-link" href="listLicencie">Licencie</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?action=listContact">Contact</a>
+            <a class="nav-link" href="listContact">Contact</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="index.php?action=listEducateur">Educateur</a>
         </li>
     </ul>
 </nav>

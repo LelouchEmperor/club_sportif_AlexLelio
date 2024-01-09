@@ -40,7 +40,6 @@ $authentificationController = new \Controller\AuthentificationController(new \Mo
 
 // Définir un tableau de correspondance entre les pages et les contrôleurs
 $controllerMapping = [
-    'accueil' => 'DashboardController',
     'listLicencie' => 'LicencieController',
     'listContact' => 'ContactController',
     'listCategorie' => 'CategorieController',
@@ -76,11 +75,11 @@ if (array_key_exists($page, $controllerMapping)) {
 }
 
 function decideActionFromPage($page) {
-    if (stripos($page, 'create') !== false || stripos($page, 'creer') !== false)) {
+    if (stripos($page, 'create') !== false || stripos($page, 'creer') !== false) {
         return 'displayFormCreate';
     } elseif (stripos($page, 'update') !== false || stripos($page, 'modifier') !== false) {
         return 'displayFormUpdate';
-    } elseif (stripos($page, 'list') !== false || stripos($page, 'liste') !== false)) {
+    } elseif (stripos($page, 'list') !== false || stripos($page, 'liste') !== false) {
         return 'displayList';
     } elseif ($page === 'login' || $page === 'accueil') {  
         return 'displayFormLogin';
@@ -123,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $licencieController->createLicencie(
                 $_POST['nom'],
                 $_POST['prenom'],
-                $_POST['numero_licence']d);
+                $_POST['numero_licence']);
     break;
 
 
