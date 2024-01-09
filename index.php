@@ -95,46 +95,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($action) {
         case 'createCategorie':
-            $nom = $_POST['nom'];
-            $codeRaccourci = $_POST['codeRaccourci'];
-            $controller = new CategorieController();
-            $controller->createCategorie($nom, $codeRaccourci);
+            $categorieController->createCategorie();
             break;
 
         case 'createEducateur':
-            $nom = $_POST['nom'];
-            $prenom = $_POST['prenom'];
-            $email = $_POST['email'];
-            $numeroTel = $_POST['numero_tel'];
-            $motDePasse = $_POST['mot_de_passe'];
-            $isAdmin = isset($_POST['is_admin']);
-            $controller = new EducateurController();
-            $controller->createEducateur($nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin);
+            $controllerEducateur->createEducateur();
             break;
 
         case 'createContact':
-            $nom = $_POST['nom'];
-            $prenom = $_POST['prenom'];
-            $email = $_POST['email'];
-            $numeroTel = $_POST['numero_tel'];
-            $controller = new ContactController();
-            $controller->createContact($nom, $prenom, $email, $numeroTel);
+            $contactController->createContact();
             break;
 
         case 'createLicencie':
-            $nom = $_POST['nom'];
-            $prenom = $_POST['prenom'];
-            $numeroLicence = $_POST['numero_licence'];
-            $controller = new LicencieController();
-            $controller->createLicencie($nom, $prenom, $numeroLicence);
+            $licencieController->createLicencie();
             break;
 
         case 'updateCategorie':
             $id = $_POST['id'];
             $nom = $_POST['nom'];
             $codeRaccourci = $_POST['codeRaccourci'];
-            $controller = new CategorieController();
-            $controller->updateCategorie($id, $nom, $codeRaccourci);
+            $categorieControllerr->updateCategorie($id, $nom, $codeRaccourci);
             break;
         
         case 'updateEducateur':
@@ -145,8 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $numeroTel = $_POST['numero_tel'];
             $motDePasse = $_POST['mot_de_passe'];
             $isAdmin = isset($_POST['is_admin']);
-            $controller = new EducateurController();
-            $controller->updateEducateur($id, $nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin);
+            $controllerEducateur->updateEducateur($id, $nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin);
             break;
         
         case 'updateContact':
@@ -155,8 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $prenom = $_POST['prenom'];
             $email = $_POST['email'];
             $numeroTel = $_POST['numero_tel'];
-            $controller = new ContactController();
-            $controller->updateContact($id, $nom, $prenom, $email, $numeroTel);
+            $contactController->updateContact($id, $nom, $prenom, $email, $numeroTel);
             break;
         
         case 'updateLicencie':
@@ -164,9 +142,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nom = $_POST['nom'];
             $prenom = $_POST['prenom'];
             $numeroLicence = $_POST['numero_licence'];
-            $controller = new LicencieController();
-            $controller->updateLicencie($id, $nom, $prenom, $numeroLicence);
+            $licencieController->updateLicencie($id, $nom, $prenom, $numeroLicence);
             break;
+
+        // ajouter les cas pour deletes
     }
 }
 
