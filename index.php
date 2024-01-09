@@ -95,20 +95,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($action) {
         case 'createCategorie':
-            $categorieController->createCategorie();
+            $nom = $_POST['nom'];
+            $codeRaccourci = $_POST['codeRaccourci'];
+            $categorieController->createCategorie($nom, $codeRaccourci);
             break;
 
         case 'createEducateur':
-            $controllerEducateur->createEducateur();
-            break;
-
+            $educateurController->createEducateur(
+                $_POST['nom'],
+                $_POST['prenom'],
+                $_POST['email'],
+                $_POST['numero_tel'],
+                $_POST['mot_de_passe'],
+                isset($_POST['is_admin'])
+);
+    break;
         case 'createContact':
-            $contactController->createContact();
-            break;
+            $contactController->createContact(
+                $_POST['nom'],
+                $_POST['prenom'],
+                $_POST['email'],
+                $_POST['numero_tel']
+    );
+    break;
 
         case 'createLicencie':
-            $licencieController->createLicencie();
-            break;
+            $licencieController->createLicencie(
+                $_POST['nom'],
+                $_POST['prenom'],
+                $_POST['numero_licence']d);
+    break;
+
 
         case 'updateCategorie':
             $id = $_POST['id'];
