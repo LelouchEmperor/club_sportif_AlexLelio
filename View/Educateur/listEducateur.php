@@ -22,8 +22,8 @@ if (!isset($_SESSION['utilisateur_id'])) {
         <?php foreach ($educateurs as $educateur): ?>
             <li>
                 <?= $educateur->getPrenom() ?> <?= $educateur->getNom() ?> (<?= $educateur->getEmail() ?>)
-                <a href="index.php?action=displayFormUpdate&id=<?= $educateur->getId() ?>">Modifier</a>
-                <a href="index.php?action=delete&id=<?= $educateur->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet éducateur ?')">Supprimer</a>
+                <a href="index.php?action=displayFormUpdateEducateur&id=<?= $educateur->getId() ?>">Modifier</a>
+                <a href="index.php?action=deleteContact&id=<?= $educateur->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet éducateur ?')">Supprimer</a>
             </li>
         <?php endforeach; ?>
     </ul>
