@@ -1,11 +1,11 @@
 <?php
 // Vérifier si l'utilisateur est connecté
-session_start();
-if (!isset($_SESSION['utilisateur_id'])) {
-    // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-    header('Location: login');
-    exit();
-}
+// session_start();
+// if (!isset($_SESSION['utilisateur_id'])) {
+//     // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+//     header('Location: login');
+//     exit();
+// }
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ if (!isset($_SESSION['utilisateur_id'])) {
             <li>
                 <?= $contact->getPrenom() ?> <?= $contact->getNom() ?> (<?= $contact->getEmail() ?>)
                 <a href="index.php?action=displayFormUpdateContact&id=<?= $contact->getId() ?>">Modifier</a>
-                <a href="index.php?action=delete&id=<?= $contact->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">Supprimer</a>
+                <a href="index.php?action=deleteContact&id=<?= $contact->getId() ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">Supprimer</a>
             </li>
         <?php endforeach; ?>
     </ul>

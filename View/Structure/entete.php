@@ -1,3 +1,22 @@
+<?php
+// Récupérer le nom du script actuel (nom de la page)
+$currentPage = basename($_SERVER['SCRIPT_NAME'], '.php');
+
+// Initialiser $pageActive avec une valeur par défaut (par exemple, 'Categorie')
+$pageActive = 'Categorie';
+
+// Vérifier si "categorie" est présent dans l'URL
+if (stripos($_SERVER['REQUEST_URI'], 'categorie') !== false) {
+    $pageActive = 'Categorie';
+} elseif (stripos($_SERVER['REQUEST_URI'], 'licencie') !== false) {
+    $pageActive = 'Licencie';
+} elseif (stripos($_SERVER['REQUEST_URI'], 'contact') !== false) {
+    $pageActive = 'Contact';
+} elseif (stripos($_SERVER['REQUEST_URI'], 'educateur') !== false) {
+    $pageActive = 'Educateur';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,22 +38,21 @@
     <a class="navbar-brand" href="#">Club sportif</a>
     <!-- Utiliser la classe 'navbar-nav' pour centrer les éléments -->
     <ul class="navbar-nav">
-        <li class="nav-item active">
-            <a class="nav-link" href="listCategorie">Categorie</a>
+        <li class="nav-item <?php echo ($pageActive === 'Categorie') ? 'active' : ''; ?>">
+            <a class="nav-link <?php echo ($pageActive === 'Categorie') ? 'font-weight-bold' : ''; ?>" href="listCategorie">Categorie</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="listLicencie">Licencie</a>
+        <li class="nav-item <?php echo ($pageActive === 'Licencie') ? 'active' : ''; ?>">
+            <a class="nav-link <?php echo ($pageActive === 'Licencie') ? 'font-weight-bold' : ''; ?>" href="listLicencie">Licencie</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="listContact">Contact</a>
+        <li class="nav-item <?php echo ($pageActive === 'Contact') ? 'active' : ''; ?>">
+            <a class="nav-link <?php echo ($pageActive === 'Contact') ? 'font-weight-bold' : ''; ?>" href="listContact">Contact</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.php?action=listEducateur">Educateur</a>
+        <li class="nav-item <?php echo ($pageActive === 'Educateur') ? 'active' : ''; ?>">
+            <a class="nav-link <?php echo ($pageActive === 'Educateur') ? 'font-weight-bold' : ''; ?>" href="listEducateur">Educateur</a>
         </li>
     </ul>
 </nav>
 
-<!-- Contenu de la page ici -->
 
 <!-- Ajouter le lien vers Bootstrap JS et jQuery pour les fonctionnalités avancées -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

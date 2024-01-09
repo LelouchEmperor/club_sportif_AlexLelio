@@ -11,8 +11,8 @@ include_once('Model/ContactDAO.php');
 class ContactController {
     private $contactDAO;
 
-    public function __construct($db) {
-        $this->contactDAO = new ContactDAO($db);
+    public function __construct(ContactDAO $contactDAO) {
+        $this->contactDAO = $contactDAO;
     }
 
     public function createContact($nom, $prenom, $email, $numeroTel) {

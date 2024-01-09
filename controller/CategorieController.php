@@ -8,11 +8,12 @@ use Model\Categorie;
 include_once('Model/CategorieDAO.php');
 include_once('Model/Categorie.php');
 
+
 class CategorieController {
     private $categorieDAO;
 
-    public function __construct($db) {
-        $this->categorieDAO = new CategorieDAO($db);
+    public function __construct(CategorieDAO $categorieDAO) {
+        $this->categorieDAO = $categorieDAO;
     }
 
     public function createCategorie($nom, $codeRaccourci) {
@@ -33,12 +34,7 @@ class CategorieController {
         // Supprimer une catégorie
         $this->categorieDAO->delete($id);
     }
-
-    public function listCategorie() {
-        $categories = $this->categorieDAO->getAll();
-        echo $twig->render('view/Categorie/listCategorie.php', ['categories' => $categories]);
-        include('view/Categorie/listCategorie.php');
-    }
+    
 
     public function displayFormUpdate(){
         // Afficher le formulaire de mise à jour d'une catégorie
@@ -54,6 +50,6 @@ class CategorieController {
     public function displayList(){
         // Afficher la liste des catégories
         $categories = $this->categorieDAO->getAll();
-        include('view/Categorie/listCategorie.php');
+        include('View/Categorie/listCategorie.php');
     }
 }

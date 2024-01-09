@@ -3,12 +3,13 @@
 namespace Model;
 use Model\Contact;
 use Model\Categorie;
-
+use PDO;
+use PDOException;
 class LicencieDAO {
-    private $db;  // La connexion à la base de données
+    private $connexion;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct(Connexion $connexion) {
+        $this->connexion = $connexion;
     }
 
     public function create(Licencie $licencie) {
@@ -19,7 +20,8 @@ class LicencieDAO {
         $categorieId = $licencie->getCategorieId();
 
         $query = "INSERT INTO licencie (nom, prenom, numero_licence, contact_id, categorie_id) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion
+->prepare($query);
         $stmt->bind_param("ssiii", $nom, $prenom, $numeroLicence, $contactId, $categorieId);
 
         return $stmt->execute();
@@ -34,7 +36,8 @@ class LicencieDAO {
         $categorieId = $licencie->getCategorieId();
 
         $query = "UPDATE licencie SET nom=?, prenom=?, numero_licence=?, contact_id=?, categorie_id=? WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion
+->prepare($query);
         $stmt->bind_param("ssiiii", $nom, $prenom, $numeroLicence, $contactId, $categorieId, $id);
 
         return $stmt->execute();
@@ -42,7 +45,8 @@ class LicencieDAO {
 
     public function delete($id) {
         $query = "DELETE FROM licencie WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion
+->prepare($query);
         $stmt->bind_param("i", $id);
 
         return $stmt->execute();
@@ -50,7 +54,8 @@ class LicencieDAO {
 
     public function getById($id) {
         $query = "SELECT * FROM licencie WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion
+->prepare($query);
         $stmt->bind_param("i", $id);
 
         $stmt->execute();
@@ -64,17 +69,20 @@ class LicencieDAO {
         return null;
     }
 
-    public function getAll() {
-        $query = "SELECT * FROM licencie";
-        $result = $this->db->query($query);
 
-        $licencies = array();
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $licencies[] = new Licencie($row['id'], $row['nom'], $row['prenom'], $row['numero_licence'], $row['contact_id'], $row['categorie_id']);
+        public function getAll() {
+            try {
+                $stmt = $this->connexion->pdo->query("SELECT * FROM licencie");
+                $licencies = [];
+        
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $licencies[] = new Licencie($row['id'], $row['nom'], $row['prenom'], $row['numero_licence']);
+                }
+        
+                return $licencies;
+            } catch (PDOException $e) {
+                return [];
             }
         }
-        return $licencies;
-    }
+        
 }

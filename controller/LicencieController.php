@@ -11,10 +11,9 @@ include_once('Model/LicencieDAO.php');
 class LicencieController {
     private $licencieDAO;
 
-    public function __construct($db) {
-        $this->licencieDAO = new LicencieDAO($db);
+    public function __construct(LicencieDAO $licencieDAO) {
+        $this->licencieDAO = $licencieDAO;
     }
-    
 
     public function createLicencie($nom, $prenom, $numeroLicence, $contactId, $categorieId) {
         // Créer un nouveau licencié

@@ -3,12 +3,14 @@
 namespace Model;
 
 use Model\Educateur;
+use PDO;
+use PDOException;
 
 class EducateurDAO {
-    private $db;  // La connexion à la base de données
+    private $connexion;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct(Connexion $connexion) {
+        $this->connexion = $connexion;
     }
 
     public function create(Educateur $educateur) {
@@ -20,7 +22,7 @@ class EducateurDAO {
         $isAdmin = $educateur->getIsAdmin();
 
         $query = "INSERT INTO educateur (nom, prenom, email, numero_tel, mot_de_passe, is_admin) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("sssssi", $nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin);
 
         return $stmt->execute();
@@ -36,7 +38,7 @@ class EducateurDAO {
         $isAdmin = $educateur->getIsAdmin();
 
         $query = "UPDATE educateur SET nom=?, prenom=?, email=?, numero_tel=?, mot_de_passe=?, is_admin=? WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("sssssi", $nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin, $id);
 
         return $stmt->execute();
@@ -44,7 +46,7 @@ class EducateurDAO {
 
     public function delete($id) {
         $query = "DELETE FROM educateur WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("i", $id);
 
         return $stmt->execute();
@@ -52,7 +54,7 @@ class EducateurDAO {
 
     public function getById($id) {
         $query = "SELECT * FROM educateur WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("i", $id);
 
         $stmt->execute();
@@ -67,23 +69,23 @@ class EducateurDAO {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM educateur";
-        $result = $this->db->query($query);
-
-        $educateurs = array();
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+        try {
+            $stmt = $this->connexion->pdo->query("SELECT * FROM educateur");
+            $educateurs = [];
+    
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $educateurs[] = new Educateur($row['id'], $row['nom'], $row['prenom'], $row['email'], $row['numero_tel'], $row['mot_de_passe'], $row['is_admin']);
             }
+    
+            return $educateurs;
+        } catch (PDOException $e) {
+            return [];
         }
-
-        return $educateurs;
     }
-
+    
     public function getByEmail($email) {
         $query = "SELECT * FROM educateur WHERE email=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("s", $email);
 
         $stmt->execute();

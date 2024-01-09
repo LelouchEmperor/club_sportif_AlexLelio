@@ -11,8 +11,8 @@ require_once('Model/EducateurDAO.php');
 class EducateurController {
     private $educateurDAO;
 
-    public function __construct($db) {
-        $this->educateurDAO = new EducateurDAO($db);
+    public function __construct(EducateurDAO $educateurDAO) {
+        $this->educateurDAO = $educateurDAO;
     }
 
     public function createEducateur($nom, $prenom, $email, $numeroTel, $motDePasse, $isAdmin) {

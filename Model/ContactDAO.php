@@ -3,11 +3,17 @@
 namespace Model;
 use Model\Contact;
 
-class ContactDAO {
-    private $db;  // La connexion à la base de données
+use PDO;
+use PDOException;
 
-    public function __construct($db) {
-        $this->db = $db;
+include_once("Model/Contact.php");
+
+
+class ContactDAO {
+    private $connexion;
+
+    public function __construct(Connexion $connexion) {
+        $this->connexion = $connexion;
     }
 
     public function create(Contact $contact) {
@@ -17,7 +23,7 @@ class ContactDAO {
         $numeroTel = $contact->getNumeroTel();
 
         $query = "INSERT INTO contact (nom, prenom, email, numero_tel) VALUES (?, ?, ?, ?)";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("ssss", $nom, $prenom, $email, $numeroTel);
 
         return $stmt->execute();
@@ -31,7 +37,7 @@ class ContactDAO {
         $numeroTel = $contact->getNumeroTel();
 
         $query = "UPDATE contact SET nom=?, prenom=?, email=?, numero_tel=? WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("ssssi", $nom, $prenom, $email, $numeroTel, $id);
 
         return $stmt->execute();
@@ -39,7 +45,7 @@ class ContactDAO {
 
     public function delete($id) {
         $query = "DELETE FROM contact WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("i", $id);
 
         return $stmt->execute();
@@ -47,7 +53,7 @@ class ContactDAO {
 
     public function getById($id) {
         $query = "SELECT * FROM contact WHERE id=?";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->connexion->prepare($query);
         $stmt->bind_param("i", $id);
 
         $stmt->execute();
@@ -62,17 +68,18 @@ class ContactDAO {
     }
 
     public function getAll() {
-        $query = "SELECT * FROM contact";
-        $result = $this->db->query($query);
-
-        $contacts = array();
-
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+        try {
+            $stmt = $this->connexion->pdo->query("SELECT * FROM contact");
+            $contacts = [];
+    
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $contacts[] = new Contact($row['id'], $row['nom'], $row['prenom'], $row['email'], $row['numero_tel']);
             }
+    
+            return $contacts;
+        } catch (PDOException $e) {
+            return [];
         }
-
-        return $contacts;
     }
+    
 }

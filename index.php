@@ -16,27 +16,47 @@ spl_autoload_register(function ($class) {
     }
 });
 
+
+
+
 require_once 'config.php';
+require_once 'Model/Connexion.php';
+require_once 'Model/CategorieDAO.php';
+require_once 'Model/EducateurDAO.php';
+require_once 'Model/ContactDAO.php';
+require_once 'Model/LicencieDAO.php';
+require_once 'Controller/CategorieController.php';
+require_once 'Controller/EducateurController.php';
+require_once 'Controller/ContactController.php';
+require_once 'Controller/LicencieController.php';
+require_once 'Controller/AuthentificationController.php';
+
+
+$connexion = new Model\Connexion();
+
+$categorieDAO = new \Model\CategorieDAO($connexion);
+$categorieController = new \Controller\CategorieController($categorieDAO);
+
+$educateurDAO = new \Model\EducateurDAO($connexion);
+$educateurController = new \Controller\EducateurController($educateurDAO);
+
+$contactDAO = new \Model\ContactDAO($connexion);
+$contactController = new \Controller\ContactController($contactDAO);
+
+$licencieDAO = new \Model\LicencieDAO($connexion);
+$licencieController = new \Controller\LicencieController($licencieDAO);
 
 include("View/Structure/entete.php");
 
-// Créer une connexion à la base de données (remplacez ces valeurs par les vôtres)
-$db = new mysqli("localhost", "root", "", "club_sportif");
 
-$categorieController = new \Controller\CategorieController(new \Model\CategorieDAO($db));
-$contactController = new \Controller\ContactController(new \Model\ContactDAO($db));
-$educateurController = new \Controller\EducateurController(new \Model\EducateurDAO($db));
-$licencieController = new \Controller\LicencieController(new \Model\LicencieDAO($db));
-
-
-// Récupère le chemin après le nom de domaine (par exemple, localhost/club_sportif/connexion)
+ // Récupère le chemin après le nom de domaine (par exemple, localhost/club_sportif/connexion)
 $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $parts = explode('/', $path);
 
 // Utilise la première partie du chemin comme paramètre de page
 $page = !empty($parts[0]) ? $parts[0] : 'accueil';
 
-$authentificationController = new \Controller\AuthentificationController(new \Model\EducateurDAO($db));
+$authentificationController = new \Controller\AuthentificationController($connexion);
 
 // Définir un tableau de correspondance entre les pages et les contrôleurs
 $controllerMapping = [
@@ -55,19 +75,28 @@ $controllerMapping = [
     'login' => 'AuthentificationController',
 ];
 
+
+$controllerToDAO = [
+    'CategorieController' => 'CategorieDAO',
+    'EducateurController' => 'EducateurDAO',
+    'LicencieController' => 'LicencieDAO',
+    'ContactController' => 'ContactDAO',
+];
+
+
 // Vérifier si la page demandée est définie dans le mapping
 if (array_key_exists($page, $controllerMapping)) {
     $controllerClassName = "Controller\\" . $controllerMapping[$page];
-    
+
     // Décider quelle méthode appeler en fonction de l'action de l'URL
     $action = decideActionFromPage($page);
 
     if ($page === 'login') {
-        // Si la page est 'login', instanciez le contrôleur avec EducateurDAO
-        $controller = new \Controller\AuthentificationController(new \Model\EducateurDAO($db));
+        $controller = new \Controller\AuthentificationController($educateurDAO);
     } else {
-        // Sinon, instanciez le contrôleur sans EducateurDAO (ou avec d'autres paramètres nécessaires)
-        $controller = new $controllerClassName($db);
+        $daoClassName = 'Model\\' . $controllerToDAO[$controllerMapping[$page]];
+        $dao = new $daoClassName($connexion);
+        $controller = new $controllerClassName($dao);
     }
 
     // Appeler la méthode
@@ -88,7 +117,6 @@ function decideActionFromPage($page) {
     }
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
@@ -106,24 +134,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['email'],
                 $_POST['numero_tel'],
                 $_POST['mot_de_passe'],
-                isset($_POST['is_admin'])
-);
-    break;
+                isset($_POST['is_admin']));
+        break;
         case 'createContact':
             $contactController->createContact(
                 $_POST['nom'],
                 $_POST['prenom'],
                 $_POST['email'],
-                $_POST['numero_tel']
-    );
-    break;
+                $_POST['numero_tel']);
+        break;
 
         case 'createLicencie':
             $licencieController->createLicencie(
                 $_POST['nom'],
                 $_POST['prenom'],
                 $_POST['numero_licence']);
-    break;
+        break;
 
 
         case 'updateCategorie':
@@ -176,7 +202,7 @@ if (isset($_GET['action'])) {
         
         case 'deleteEducateur':
             $id = $_GET['id'];
-            $deleteController->deleteEducateur($id);
+            $educateurController->deleteEducateur($id);
             break;
         
         case 'deleteContact':
@@ -186,7 +212,7 @@ if (isset($_GET['action'])) {
         
         case 'deleteLicencie':
             $id = $_GET['id'];
-            $LicencieController->deleteLicencie($id);
+            $licencieController->deleteLicencie($id);
             break;
 
         case 'displayFormUpdateCategorie':
@@ -208,7 +234,11 @@ if (isset($_GET['action'])) {
                 $id = $_GET['id'];
                 $contactController->displayFormUpdate($id);
                 break;
+
+                
         }
+
+        
 }
 
 

@@ -2,14 +2,15 @@
 namespace Controller;
 
 use Model\EducateurDAO;
+use Model\Connexion;
 
 require_once("Model/EducateurDAO.php");
 
 class AuthentificationController {
     private $educateurDAO;
 
-    public function __construct(EducateurDAO $educateurDAO = null) {
-        $this->educateurDAO = $educateurDAO ?: new EducateurDAO(); 
+    public function __construct(Connexion $connexion) {
+        $this->educateurDAO = new EducateurDAO($connexion);
     }
     
 
