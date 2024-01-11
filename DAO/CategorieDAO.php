@@ -1,10 +1,5 @@
 <?php
 
-namespace Model;
-
-use PDO;
-use PDOException;
-
 class CategorieDAO {
     private $connexion;
 
@@ -12,7 +7,23 @@ class CategorieDAO {
         $this->connexion = $connexion;
     }
 
-    public function create(Categorie $categorie) {
+
+    public function getAllCategories() {
+        
+        try {
+            $stmt = $this->connexion->pdo->query("SELECT * FROM categorie");
+            $categories = [];
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $categories[] = new Categorie($row['id'],$row['nom'], $row['code_raccourci']);
+            }
+            return $categories;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+    
+    public function createCategorie(Categorie $categorie) {
         try {
             $stmt = $this->connexion->pdo->prepare("INSERT INTO categorie (nom, code_raccourci) VALUES (:nom, :code_raccourci)");
             $stmt->bindValue(":nom", $categorie->getNom(), PDO::PARAM_STR);
@@ -24,11 +35,13 @@ class CategorieDAO {
         }
     }
 
-    public function update(Categorie $categorie) {
+    public function updateCategorie(Categorie $categorie) {
         $id = $categorie->getId();
         $nom = $categorie->getNom();
         $codeRaccourci = $categorie->getCodeRaccourci();
 
+
+        // requete preparee pour la mise a jour de la categorie
         $query = "UPDATE categorie SET nom=:nom, code_raccourci=:code_raccourci WHERE id=:id";
         $stmt = $this->connexion->pdo->prepare($query);
         $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
@@ -38,7 +51,8 @@ class CategorieDAO {
         return $stmt->execute();
     }
 
-    public function delete($id) {
+    public function deleteCategorie($id) {
+        // requete preparee pour la suppression de la categorie
         $query = "DELETE FROM categorie WHERE id=:id";
         $stmt = $this->connexion->pdo->prepare($query);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
@@ -61,18 +75,5 @@ class CategorieDAO {
         return null;
     }
 
-    public function getAll() {
-        try {
-            $stmt = $this->connexion->pdo->query("SELECT * FROM categorie");
-            $categories = [];
-
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $categories[] = new Categorie($row['id'], $row['nom'], $row['code_raccourci']);
-            }
-
-            return $categories;
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
+ 
 }

@@ -1,20 +1,12 @@
 <?php
 
-namespace Model;
-
-use PDO;
-use PDOException;
-
-
 class Connexion{
-
     public function __construct(){
 
         global $host;
         global $database;
         global $username;
         global $password;
-        // Connexion à la base de données en utilisant PDO
         try {
             $this->pdo = new PDO("mysql:host=$host;dbname=$database", $username, $password);
             // Définir le mode d'erreur PDO à exception

@@ -1,12 +1,5 @@
 <?php
 
-namespace Model;
-
-use Model\Connexion;
-use Model\Licencie;
-use PDO;
-use PDOException;
-
 class LicencieDAO {
     private $connexion;
 
@@ -14,7 +7,7 @@ class LicencieDAO {
         $this->connexion = $connexion;
     }
 
-    public function create(Licencie $licencie) {
+    public function createLicencie(Licencie $licencie) {
         $nom = $licencie->getNom();
         $prenom = $licencie->getPrenom();
         $numeroLicence = $licencie->getNumeroLicence();
@@ -32,7 +25,7 @@ class LicencieDAO {
         return $stmt->execute();
     }
 
-    public function update(Licencie $licencie) {
+    public function updateLicencie(Licencie $licencie) {
         $id = $licencie->getId();
         $nom = $licencie->getNom();
         $prenom = $licencie->getPrenom();
@@ -52,10 +45,10 @@ class LicencieDAO {
         return $stmt->execute();
     }
 
-    public function delete($id) {
+    public function deleteLicencie($licencieId) {
         $query = "DELETE FROM licencie WHERE id=:id";
         $stmt = $this->connexion->pdo->prepare($query);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        $stmt->bindValue(":id", $licencieId, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
@@ -75,18 +68,18 @@ class LicencieDAO {
         return null;
     }
 
-    public function getAll() {
+    public function getAllLicencies() {
         try {
-            $stmt = $this->connexion->pdo->query("SELECT * FROM licencie");
+            $stmt = $this->connexion->pdo->query("SELECT * FROM licencies");
             $licencies = [];
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $licencies[] = new Licencie($row['id'], $row['nom'], $row['prenom'], $row['numero_licence'], $row['contact_id'], $row['categorie_id']);
+                $licencies[] = new Licencie($row['id'], $row['num'],$row['nom'], $row['prenom'], $row['contact_id'], $row['categorie_id']);
             }
 
             return $licencies;
         } catch (PDOException $e) {
             return [];
         }
-    }
+}
 }

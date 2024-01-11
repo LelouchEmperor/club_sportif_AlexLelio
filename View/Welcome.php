@@ -4,10 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenue</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/welcome.css">
 </head>
 <body>
-    <h1>Bienvenue sur le site d'Alex et Lelio</h1>
-    <p>Vous êtes connecté en tant que <?php echo $_SESSION['email']; ?></p>
-    <a href="logout.php">Se déconnecter</a>
+    <div class="container">
+        <h1 class="text-center">Bienvenue</h1>
+        <p class="text-center">Que voulez-vous faire ?</p>
+
+        <!-- Liste améliorée avec des éléments stylisés -->
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="Educateur/listEducateur" class="btn btn-primary btn-block">Liste des Educateurs</a>
+            </li>
+            <li class="list-group-item">
+                <a href="Categorie/listCategorie" class="btn btn-success btn-block">Liste des Catégories</a>
+            </li>
+            <li class="list-group-item">
+                <a href="Contact/listContact" class="btn btn-warning btn-block">Liste des Contacts</a>
+            </li>
+            <li class="list-group-item">
+                <a href="/Licencie/listLicencie.php" class="btn btn-danger btn-block">Liste des Licenciés</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Bootstrap JavaScript et scripts additionnels -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

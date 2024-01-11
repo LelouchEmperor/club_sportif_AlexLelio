@@ -1,11 +1,5 @@
 <?php
 
-namespace Model;
-
-use Model\Educateur;
-use PDO;
-use PDOException;
-
 class EducateurDAO {
     private $connexion;
 
@@ -13,7 +7,36 @@ class EducateurDAO {
         $this->connexion = $connexion;
     }
 
-    public function create(Educateur $educateur) {
+    public function getAllEducateurs() {
+        try {
+            $stmt = $this->connexion->pdo->query("SELECT * FROM educateurs");
+            $educateurs = [];
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $a = new LicencieDAO(new Connexion);
+                $licencie = $a->getById($row['licencieID']);
+                $c = new CategorieDAO(new Connexion);
+                $categorie = $c->getById($licencie->getCategorieID());
+
+                $b = new ContactDAO(new Connexion);
+                $contact = $b->getById($licencie->getContactID());
+
+                $data = new Educateur($row['id'], $row['licencieID'],$row['email'], $row['motDePasse'], $row['estAdministrateur']);
+
+                $educateurs[] = [
+                    'data' => $data,
+                    'contact' => $contact,
+                    'licencie' => $licencie,
+                    'categorie' => $categorie,
+                ];
+            }
+            return $educateurs;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function createEducateur(Educateur $educateur) {
         $nom = $educateur->getNom();
         $prenom = $educateur->getPrenom();
         $email = $educateur->getEmail();
@@ -33,7 +56,7 @@ class EducateurDAO {
         return $stmt->execute();
     }
 
-    public function update(Educateur $educateur) {
+    public function updateEducateur(Educateur $educateur) {
         $id = $educateur->getId();
         $nom = $educateur->getNom();
         $prenom = $educateur->getPrenom();
@@ -78,21 +101,7 @@ class EducateurDAO {
         return null;
     }
 
-    public function getAll() {
-        try {
-            $stmt = $this->connexion->pdo->query("SELECT * FROM educateur");
-            $educateurs = [];
-    
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $educateurs[] = new Educateur($row['id'], $row['nom'], $row['prenom'], $row['email'], $row['numero_tel'], $row['mot_de_passe'], $row['is_admin']);
-            }
-    
-            return $educateurs;
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-    
+
     public function getByEmail($email) {
         $query = "SELECT * FROM educateur WHERE email=:email";
         $stmt = $this->connexion->pdo->prepare($query);

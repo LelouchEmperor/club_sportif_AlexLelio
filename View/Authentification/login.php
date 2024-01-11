@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/login.css">
 </head>
 <body>
-    <h1>Connexion</h1>
+    
 
     <?php
 
@@ -26,14 +28,24 @@
     }
     ?>
 
-    <form action="authentification.php" method="post">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+<form action="../../index.php?page=educateur&action=login" method="post">
+            <h1>Connexion</h1>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
 
-        <label for="mot_de_passe">Mot de Passe:</label>
-        <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+            <div class="form-group">
+                <label for="mot_de_passe">Mot de Passe:</label>
+                <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control" required>
+            </div>
 
-        <button type="submit">Se Connecter</button>
-    </form>
+            <button type="submit" href='' class="btn btn-primary">Se Connecter</button>
+        </form>
+    </div>
+    <!-- Bootstrap JavaScript et scripts additionnels -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
