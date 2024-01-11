@@ -51,6 +51,19 @@ if (stripos($_SERVER['REQUEST_URI'], 'categorie') !== false) {
             <a class="nav-link <?php echo ($pageActive === 'Educateur') ? 'font-weight-bold' : ''; ?>" href="listEducateur">Educateur</a>
         </li>
     </ul>
+
+    <?php
+    // Vérifier si l'utilisateur est connecté
+    if (isset($_SESSION['utilisateur_id'])) {
+    ?>
+   <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="index.php?action=logout">Déconnexion</a>
+        </li>
+    </ul> 
+    <?php
+    }
+    ?>
 </nav>
 
 

@@ -37,16 +37,9 @@ class LicencieController {
         $this->licencieDAO->delete($id);
     }
 
-    public function listLicencie() {
-        // Afficher la liste des licenciés
-        $licencies = $this->licencieDAO->getAll();
-        // Appeler une vue pour afficher les licenciés
-        include('view/Licencie/listLicencie.php');
-    }
-
-    public function displayFormUpdate(){
+    public function displayFormUpdate($id){
         // Afficher le formulaire de mise à jour d'un licencié
-        $licencie = $this->licencieDAO->getById($_GET['id']);
+        $licencie = $this->licencieDAO->getById($id);
         include('view/Licencie/updateLicencie.php');
     }
 

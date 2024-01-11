@@ -4,6 +4,7 @@ namespace Controller;
 use Model\EducateurDAO;
 use Model\Connexion;
 
+require_once("Model/Connexion.php");
 require_once("Model/EducateurDAO.php");
 
 class AuthentificationController {
@@ -47,6 +48,11 @@ class AuthentificationController {
         }
         // Afficher le formulaire de création d'un éducateur
         include('View/Authentification/login.php');
+    }
+
+    public function logout(){
+        session_destroy();
+        header('Location: login');
     }
 }
 ?>

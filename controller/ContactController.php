@@ -43,9 +43,9 @@ class ContactController {
         include('view/Contact/listContact.php');
     }
 
-    public function displayFormUpdate(){
+    public function displayFormUpdate($id){
         // Afficher le formulaire de mise à jour d'un contact
-        $contact = $this->contactDAO->getById($_GET['id']);
+        $contact = $this->contactDAO->getById($id);
         include('view/Contact/updateContact.php');
     }
 

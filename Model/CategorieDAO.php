@@ -16,46 +16,46 @@ class CategorieDAO {
         try {
             $stmt = $this->connexion->pdo->prepare("INSERT INTO categorie (nom, code_raccourci) VALUES (:nom, :code_raccourci)");
             $stmt->bindValue(":nom", $categorie->getNom(), PDO::PARAM_STR);
-            $stmt->bindValue(":code_raccourci", $categorie->getCoderaccourci(), PDO::PARAM_STR);
+            $stmt->bindValue(":code_raccourci", $categorie->getCodeRaccourci(), PDO::PARAM_STR);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
             throw new PDOException("Erreur de la fonction createCategorie : " . $e->getMessage());
         }
     }
-    
 
     public function update(Categorie $categorie) {
         $id = $categorie->getId();
         $nom = $categorie->getNom();
         $codeRaccourci = $categorie->getCodeRaccourci();
 
-        $query = "UPDATE categorie SET nom=?, code_raccourci=? WHERE id=?";
-        $stmt = $this->connexion->prepare($query);
-        $stmt->bind_param("ssi", $nom, $codeRaccourci, $id);
+        $query = "UPDATE categorie SET nom=:nom, code_raccourci=:code_raccourci WHERE id=:id";
+        $stmt = $this->connexion->pdo->prepare($query);
+        $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
+        $stmt->bindValue(":code_raccourci", $codeRaccourci, PDO::PARAM_STR);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
 
     public function delete($id) {
-        $query = "DELETE FROM categorie WHERE id=?";
-        $stmt = $this->connexion->prepare($query);
-        $stmt->bind_param("i", $id);
+        $query = "DELETE FROM categorie WHERE id=:id";
+        $stmt = $this->connexion->pdo->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         return $stmt->execute();
     }
 
     public function getById($id) {
-        $query = "SELECT * FROM categorie WHERE id=?";
-        $stmt = $this->connexion->prepare($query);
-        $stmt->bind_param("i", $id);
+        $query = "SELECT * FROM categorie WHERE id=:id";
+        $stmt = $this->connexion->pdo->prepare($query);
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return new Categorie($row['id'], $row['nom'], $row['code_raccourci']);
+        if ($result) {
+            return new Categorie($result['id'], $result['nom'], $result['code_raccourci']);
         }
 
         return null;

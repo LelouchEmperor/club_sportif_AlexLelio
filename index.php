@@ -81,6 +81,8 @@ $controllerToDAO = [
     'EducateurController' => 'EducateurDAO',
     'LicencieController' => 'LicencieDAO',
     'ContactController' => 'ContactDAO',
+    'AuthentificationController' => 'EducateurDAO',
+    
 ];
 
 
@@ -92,15 +94,30 @@ if (array_key_exists($page, $controllerMapping)) {
     $action = decideActionFromPage($page);
 
     if ($page === 'login') {
-        $controller = new \Controller\AuthentificationController($educateurDAO);
+        // Instanciez le DAO avec la connexion
+        $daoClassName = 'Model\\' . $controllerToDAO[$controllerMapping[$page]];
+        $dao = new $daoClassName($connexion);
+    
+        // Instanciez le contrôleur avec le DAO
+        $controller = new $controllerClassName($connexion, $dao);
     } else {
         $daoClassName = 'Model\\' . $controllerToDAO[$controllerMapping[$page]];
         $dao = new $daoClassName($connexion);
         $controller = new $controllerClassName($dao);
     }
 
-    // Appeler la méthode
-    $controller->{$action}();
+    // condition pour voir si l'action est displayFormUpdate, si oui on passe l'id en paramètre
+    if ($action === 'displayFormUpdate') {
+        //verifier si l'id est présent dans l'url, sinon afficher une erreur "id manquant dans l'url"
+        if (isset($parts[1])) {
+            $id = $parts[1];
+            $controller->{$action}($id);
+        } else {
+            echo 'id manquant dans l\'url';
+        }
+    } else {
+        $controller->{$action}();
+    }
 }
 
 function decideActionFromPage($page) {
@@ -113,7 +130,7 @@ function decideActionFromPage($page) {
     } elseif ($page === 'login' || $page === 'accueil') {  
         return 'displayFormLogin';
     } else {
-        return 'display';  // Par défaut, si aucune correspondance n'est trouvée
+        return 'display';
     }
 }
 
@@ -122,9 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($action) {
         case 'createCategorie':
+            echo 'Formulaire soumis';
             $nom = $_POST['nom'];
             $codeRaccourci = $_POST['codeRaccourci'];
             $categorieController->createCategorie($nom, $codeRaccourci);
+            header('Location: listCategorie');
             break;
 
         case 'createEducateur':
@@ -135,6 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['numero_tel'],
                 $_POST['mot_de_passe'],
                 isset($_POST['is_admin']));
+                header('Location: listEducateur');
         break;
         case 'createContact':
             $contactController->createContact(
@@ -142,6 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['prenom'],
                 $_POST['email'],
                 $_POST['numero_tel']);
+                header('Location: listContact');
         break;
 
         case 'createLicencie':
@@ -149,14 +170,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['nom'],
                 $_POST['prenom'],
                 $_POST['numero_licence']);
+                header('Location: listLicencie');
         break;
-
 
         case 'updateCategorie':
             $id = $_POST['id'];
             $nom = $_POST['nom'];
             $codeRaccourci = $_POST['codeRaccourci'];
-            $categorieControllerr->updateCategorie($id, $nom, $codeRaccourci);
+            $categorieController->updateCategorie($id, $nom, $codeRaccourci);
             break;
         
         case 'updateEducateur':
@@ -187,7 +208,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $licencieController->updateLicencie($id, $nom, $prenom, $numeroLicence);
             break;
 
-        // ajouter les cas pour deletes
+        case 'login':
+            $email = $_POST['email'];
+            $motDePasse = $_POST['mot_de_passe'];
+            $authentificationController->login($email, $motDePasse);
+            break;
+
+        case 'default':
+            echo 'nothing to do';
+            break;
     }
 }
 
@@ -234,14 +263,12 @@ if (isset($_GET['action'])) {
                 $id = $_GET['id'];
                 $contactController->displayFormUpdate($id);
                 break;
-
-                
-        }
-
         
+        case 'logout':
+            $authentificationController->logout();
+            break;
+        }
 }
-
-
 
 echo "<br>";
 include("View/Structure/basDePage.php");

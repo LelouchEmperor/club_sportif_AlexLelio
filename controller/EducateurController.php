@@ -42,24 +42,24 @@ class EducateurController {
         // Afficher la liste des éducateurs
         $educateurs = $this->educateurDAO->getAll();
         // Appeler une vue pour afficher les éducateurs
-        include('view/Educateur/listEducateur.php');
+        include('View/Educateur/listEducateur.php');
     }
 
-    public function displayFormUpdate(){
+    public function displayFormUpdate($id){
         // Afficher le formulaire de mise à jour d'un éducateur
-        $educateur = $this->educateurDAO->getById($_GET['id']);
-        include('view/Educateur/updateEducateur.php');
+        $educateur = $this->educateurDAO->getById($id);
+        include('View/Educateur/updateEducateur.php');
     }
 
     public function displayFormCreate(){
         // Afficher le formulaire de création d'un éducateur
-        include('view/Educateur/createEducateur.php');
+        include('View/Educateur/createEducateur.php');
     }
 
     public function displayList(){
         // Afficher la liste des éducateurs
         $educateurs = $this->educateurDAO->getAll();
-        include('view/Educateur/listEducateur.php');
+        include('View/Educateur/listEducateur.php');
     }
     
 }

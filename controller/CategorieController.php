@@ -36,9 +36,9 @@ class CategorieController {
     }
     
 
-    public function displayFormUpdate(){
+    public function displayFormUpdate($id){
         // Afficher le formulaire de mise à jour d'une catégorie
-        $categorie = $this->categorieDAO->getById($_GET['id']);
+        $categorie = $this->categorieDAO->getById($id);
         include('view/Categorie/updateCategorie.php');
     }
 

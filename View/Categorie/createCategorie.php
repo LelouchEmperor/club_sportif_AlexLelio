@@ -39,7 +39,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Créer</button>
+                <button type="submit" href="listCategorie" class="btn btn-primary">Créer</button>
                 <a href="listCategorie" class="btn btn-secondary">Annuler</a>
             </div>
         </form>

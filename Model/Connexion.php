@@ -8,8 +8,6 @@ use PDOException;
 
 class Connexion{
 
-
-
     public function __construct(){
 
         global $host;
