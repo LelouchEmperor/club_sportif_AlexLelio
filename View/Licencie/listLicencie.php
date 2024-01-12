@@ -46,7 +46,7 @@
                 <li>
                     <strong><?php echo htmlspecialchars($licencie->getNom()); ?></strong>
                     (<?php echo htmlspecialchars($licencie->getPrenom()); ?>)
-                    <a href="index.php?page=licencie&action=editLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="index.php?page=licencie&action=updateLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
                     <a href="index.php?page=licencie&action=deleteLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette licencie ?')">Supprimer</a>
                 </li>
             <?php endforeach; ?>

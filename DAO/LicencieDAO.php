@@ -70,7 +70,7 @@ class LicencieDAO {
 
     public function getAllLicencies() {
         try {
-            $stmt = $this->connexion->pdo->query("SELECT * FROM licencies");
+            $stmt = $this->connexion->pdo->query("SELECT * FROM licencie");
             $licencies = [];
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

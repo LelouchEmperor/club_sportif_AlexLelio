@@ -18,7 +18,7 @@
     <div class="container">
         <h1 class="mt-5 mb-4">Créer Catégorie</h1>
 
-        <form action="../../index.php?page=listCategorie&action=createCategorie" method="post">
+        <form action="../../index.php?page=categorie&action=createCategorie" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" class="form-control" id="nom" name="nom" required>
@@ -30,8 +30,8 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" href="listCategorie" class="btn btn-primary">Créer</button>
-                <a href="listCategorie" class="btn btn-secondary">Annuler</a>
+                <button type="submit" name="action" class="btn btn-primary">Créer</button>
+                <a href="../../index.php?page=categorie&action=display" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>

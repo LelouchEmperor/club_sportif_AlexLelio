@@ -14,14 +14,14 @@ class EducateurDAO {
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $lic = new LicencieDAO(new Connexion);
-                $licencie = $lic->getById($row['licencieID']);
+                $licencie = $lic->getById($row['licencie_id']);
                 $cat = new CategorieDAO(new Connexion);
                 $categorie = $cat->getById($licencie->getCategorieID());
 
                 $cont = new ContactDAO(new Connexion);
                 $contact = $cont->getById($licencie->getContactID());
 
-                $educ = new Educateur($row['id'], $row['licencieID'],$row['email'], $row['mot_de_passe'], $row['est_admin']);
+                $educ = new Educateur($row['id'], $row['licencie_id'],$row['email'], $row['motDePasse'], $row['estAdmin']);
 
                 $educateurs[] = [
                     'educ' => $educ,
@@ -36,37 +36,18 @@ class EducateurDAO {
         }
     }
 
-    public function createEducateur() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $licencieId = strtoupper(uniqid($_POST['email'], false));
-            
-            $email = $_POST['email'];
-            $password = password_hash($_POST['email'], PASSWORD_DEFAULT);
-            $admin = ($_POST['admin'] == 'Oui') ? true : false ;
-
-            // Valider les données du formulaire 
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = "Format d'email invalide";
-            }
-
-            // Pas de chaine vide autorisée
-            if (empty($email)) {
-                $emailErr = "L'email est requis";
-            }
-            $newEducateur = new Educateur(0, $licencieId ,$email ,$password, $admin);
-            if ($this->educateurDAO->addEducateur($newEducateur)) {
-                header('Location:index.php?page=educateur&action=display');
-                exit();
-            } else {
-                echo "Problème rencontré lors de l'ajout de l'éducateur";
-            }
+    public function createEducateur(Educateur $educateur) {
+        try {
+            $stmt = $this->connexion->pdo->prepare("INSERT INTO educateur (licencie_id, email, motDePasse, estAdmin) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$educateur->getLicencieID(), $educateur->getEmail(), $educateur->getMotDePasse(), $educateur->getEstAdmin()]);
+            return true;
+        } catch (PDOException $e) {
+            echo $e;
+            return false;
         }
-
-        // Inclure la vue pour afficher le formulaire d'ajout de contact
-        include('view/Educateur/createEducateur.php');
     }
 
-    public function updateEducateur($educateurId) {
+    public function updateEducateur(Educateur $educateur) {
         try {
             $stmt = $this->connexion->pdo->prepare("UPDATE educateur SET licencieID = ?, email = ?, estAdmin = ? WHERE id = ?");
             $stmt->execute([$educateur->getLicencieID(), $educateur->getEmail(), $educateur->getEstAdmin() ,$educateur->getId()]);

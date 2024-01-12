@@ -39,10 +39,10 @@
         <ul>
             <?php foreach ($categories as $categorie): ?>
                 <li>
-                    <strong><?php echo htmlspecialchars($categorie->getNom()); ?></strong>
+                    <?php echo htmlspecialchars($categorie->getNom()); ?>
                     (<?php echo htmlspecialchars($categorie->getCodeRaccourci()); ?>)
-                    <a href="index.php?action=displayFormUpdateCategorie&id=<?php echo $categorie->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="index.php?action=deleteCategorie&id=<?php echo $categorie->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
+                    <a href="index.php?page=categorie&action=display&id=<?php echo $categorie->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="index.php?page=categorie&action=deleteCategorie&id=<?php echo $categorie->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')">Supprimer</a>
                 </li>
             <?php endforeach; ?>
         </ul>
