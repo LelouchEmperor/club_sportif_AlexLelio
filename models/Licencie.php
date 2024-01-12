@@ -4,17 +4,17 @@ class Licencie
 {
     private $id;
     private $nom;
-    private $num;
+    private $numLicence;
     private $prenom;
     private $categorie_id;
     private $contact_id;
 
 
-    public function __construct($id, $num, $nom, $prenom, $categorie_id, $contact_id)
+    public function __construct($id, $numLicence, $nom, $prenom, $categorie_id, $contact_id)
     {
         $this->id = $id;
         $this->nom = $nom;
-        $this->num = $num;
+        $this->num = $numLicence;
         $this->prenom = $prenom;
         $this->categorie_id = $categorie_id;
         $this->contact_id = $contact_id;

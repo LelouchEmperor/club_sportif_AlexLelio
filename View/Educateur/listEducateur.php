@@ -37,21 +37,31 @@
     <div class="container">
         <h1 class="mb-3">Liste des Educateurs</h1>
 
-        <ul>
-            <?php foreach ($educateurs as $educateur): ?>
-                <li>
-                <?php
-                        // Accéder à l'objet Licencie associé à l'éducateur
-                        $licencie = $educateur->getLicencie();
-                    ?>
-                    (<?php echo $educateur['contact']->getPhone() ; ?>)
-                    (<?php echo htmlspecialchars($educateur->getEmail()); ?>)
-                    (<?php echo htmlspecialchars($educateur->getCodeRaccourci()); ?>)
+        <table class="table">
+    <thead>
+        <tr>
+            <th>Éducateur</th>
+            <th>Contact</th>
+            <th>Licencié</th>
+            <th>Catégorie</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($educateurs as $educateur): ?>
+            <tr>
+                <td><?php echo $educateur['educ']->getEmail(); ?></td>
+                <td><?php echo $educateur['contact']->getNom() . ' ' . $educateur['contact']->getPrenom(); ?></td>
+                <td><?php echo $educateur['licencie']->getNom() . ' ' . $educateur['licencie']->getPrenom(); ?></td>
+                <td><?php echo $educateur['categorie']->getNom() . ' (' . $educateur['categorie']->getCodeRaccourci() . ')'; ?></td>
+                <td>
                     <a href="index.php?page=educateur&action=editEducateur&id=<?php echo $educateur['educ']->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="index.php?page=educateur&action=deleteEducateur&id=<?php echo $educateur['educ']->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette Educateur ?')">Supprimer</a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                    <a href="index.php?page=educateur&action=deleteEducateur&id=<?php echo $educateur['educ']->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet éducateur ?')">Supprimer</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
         <a class="btn btn-primary" href="Educateur/createEducateur.php">Créer un Educateur</a>
     </div>

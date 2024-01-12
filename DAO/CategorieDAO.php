@@ -15,7 +15,7 @@ class CategorieDAO {
             $categories = [];
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $categories[] = new Categorie($row['id'],$row['nom'], $row['code_raccourci']);
+                $categories[] = new Categorie($row['id'],$row['nom'], $row['codeRaccourci']);
             }
             return $categories;
         } catch (PDOException $e) {
@@ -25,13 +25,12 @@ class CategorieDAO {
     
     public function createCategorie(Categorie $categorie) {
         try {
-            $stmt = $this->connexion->pdo->prepare("INSERT INTO categorie (nom, code_raccourci) VALUES (:nom, :code_raccourci)");
-            $stmt->bindValue(":nom", $categorie->getNom(), PDO::PARAM_STR);
-            $stmt->bindValue(":code_raccourci", $categorie->getCodeRaccourci(), PDO::PARAM_STR);
-            $stmt->execute();
+            $stmt = $this->connexion->pdo->prepare("INSERT INTO categorie (nom, codeRaccourci) VALUES (?, ?)");
+            $stmt->execute([$categorie->getNom(), $categorie->getCodeRaccourci()]);
             return true;
         } catch (PDOException $e) {
-            throw new PDOException("Erreur de la fonction createCategorie : " . $e->getMessage());
+            echo $e;
+            return false;
         }
     }
 
@@ -42,10 +41,10 @@ class CategorieDAO {
 
 
         // requete preparee pour la mise a jour de la categorie
-        $query = "UPDATE categorie SET nom=:nom, code_raccourci=:code_raccourci WHERE id=:id";
+        $query = "UPDATE categorie SET nom=:nom, codeRaccourci=:codeRaccourci WHERE id=:id";
         $stmt = $this->connexion->pdo->prepare($query);
         $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
-        $stmt->bindValue(":code_raccourci", $codeRaccourci, PDO::PARAM_STR);
+        $stmt->bindValue(":codeRaccourci", $codeRaccourci, PDO::PARAM_STR);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -69,7 +68,7 @@ class CategorieDAO {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new Categorie($result['id'], $result['nom'], $result['code_raccourci']);
+            return new Categorie($result['id'], $result['nom'], $result['codeRaccourci']);
         }
 
         return null;

@@ -3,15 +3,15 @@
 class Educateur
 {
     private $id;
-    private $licencieID;
+    private $licencie_id;
     private $email;
     private $motDePasse;
     private $estAdmin;
 
-    public function __construct($id, $licencieID, $email, $motDePasse, $estAdmin)
+    public function __construct($id, $licencie_id, $email, $motDePasse, $estAdmin)
     {
         $this->id = $id;
-        $this->licencieID = $licencieID;
+        $this->licencie_id = $licencie_id;
         $this->email = $email;
         $this->motDePasse = $motDePasse;
         $this->estAdmin = $estAdmin;
@@ -24,7 +24,7 @@ class Educateur
 
     public function getLicencieID()
     {
-        return $this->licencieID;
+        return $this->licencie_id;
     }
 
     public function getEmail()
@@ -46,9 +46,9 @@ class Educateur
     {
         $this->id = $id;
     }
-    public function setLicencieID($licencieID)
+    public function setLicencieID($licencie_id)
     {
-        $this->licencieID = $licencieID;
+        $this->licencie_id = $licencie_id;
     }
 
     public function setEmail($email)

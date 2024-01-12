@@ -13,13 +13,13 @@ class CategorieController {
         include('view/Categorie/listCategorie.php');
     }
 
-    public function createCategorie($nom, $codeRaccourci) {
+    public function createCategorie() {
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['category_name'];
-            $code = $_POST['category_code'];
+            $nom = $_POST['nom'];
+            $code = $_POST['codeRaccourci'];
 
             // validation des données récupérées, cela ne doit pas être des chiffres
-            if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+            if (!preg_match("/^[a-zA-Z ]*$/", $nom)) {
                 $nameErr = "Seuls les lettres et les espaces sont autorisés";
             }
 
@@ -28,14 +28,14 @@ class CategorieController {
             }
 
             // pas de chaine vide autorisée
-            if (empty($name) && empty($code)) {
+            if (empty($nom) && empty($code)) {
                 $nameErr = "Le nom et le code de la catégorie sont requis";
             }
 
-            $newCategorie = new Categorie(0, $name, $code);
+            $newCategorie = new Categorie(0, $nom, $code);
 
             if ($this->categorieDAO->createCategorie($newCategorie)) {
-                $path = "index.php?page=listCategorie&action=index";
+                $path = "index.php?page=categorie&action=display";
                 header('Location:'. $path);
                 exit();
             } else {

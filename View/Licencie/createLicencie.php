@@ -15,10 +15,11 @@
     </style>
 </head>
 <body>
+<body>
     <div class="container">
         <h1 class="mt-5 mb-4">Créer Licencié</h1>
 
-        <form action="../../index.php?page=listContact&action=createLicencie" method="post" method="post">
+        <form action="../../index.php?page=licencie&action=createLicencie" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" class="form-control" id="nom" name="nom" required>
@@ -30,17 +31,25 @@
             </div>
 
             <div class="form-group">
-                <label for="numero_licence">Numéro de Licence :</label>
-                <input type="text" class="form-control" id="numero_licence" name="numero_licence" required>
+                <label for="numeroLicence">Numéro de Licence :</label>
+                <input type="text" class="form-control" id="numeroLicence" name="numeroLicence" required>
             </div>
 
-            <div class="form-group mt-3">
-                <button type="submit" class="btn btn-primary">Créer</button>
-                <a href="listLicencie" class="btn btn-secondary">Annuler</a>
+            <div class="form-group">
+                <label for="contactId">ID du Contact :</label>
+                <input type="text" class="form-control" id="contactId" name="contactId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categorieId">ID de la Catégorie :</label>
+                <input type="text" class="form-control" id="categorieId" name="categorieId" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="action" class="btn btn-primary">Créer</button>
+                <a href="../../index.php?page=licencie&action=display" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
-    </div>
-
     <!-- Ajouter le lien vers Bootstrap JS et jQuery pour les fonctionnalités avancées -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
