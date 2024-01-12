@@ -39,7 +39,8 @@ button {
     width: 100%;
     box-sizing: border-box;
 }
-.error-message {
+.error {
     color: red;
+    text-align: center; /* Centrer le texte d'erreur */
     margin-top: 15px;
 }

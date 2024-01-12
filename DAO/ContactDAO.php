@@ -13,7 +13,7 @@ class ContactDAO {
             $contacts = [];
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $contacts[] = new Contact($row['id'], $row['nom'], $row['prenom'], $row['email'], $row['numero_tel']);
+                $contacts[] = new Contact($row['id'], $row['nom'], $row['prenom'], $row['email'], $row['numeroTel']);
             }
 
             return $contacts;
@@ -23,20 +23,17 @@ class ContactDAO {
     }
 
     public function createContact(Contact $contact) {
-        $nom = $contact->getNom();
-        $prenom = $contact->getPrenom();
-        $email = $contact->getEmail();
-        $numeroTel = $contact->getNumeroTel();
-
-        $query = "INSERT INTO contact (nom, prenom, email, numero_tel) VALUES (:nom, :prenom, :email, :numero_tel)";
-        $stmt = $this->connexion->pdo->prepare($query);
-        $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
-        $stmt->bindValue(":prenom", $prenom, PDO::PARAM_STR);
-        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
-        $stmt->bindValue(":numero_tel", $numeroTel, PDO::PARAM_STR);
-
-        return $stmt->execute();
+        try {
+            $stmt = $this->connexion->pdo->prepare("INSERT INTO contact (nom, prenom, email, numeroTel) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$contact->getNom(), $contact->getPrenom(), $contact->getEmail(), $contact->getNumeroTel()]);
+            return true;
+        } catch (PDOException $e) {
+            // Gestion des erreurs d'insertion
+            echo $e;
+            return false;
+        }
     }
+    
 
     public function updateContact(Contact $contact) {
         $id = $contact->getId();
@@ -73,7 +70,7 @@ class ContactDAO {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            return new Contact($result['id'], $result['nom'], $result['prenom'], $result['email'], $result['numero_tel']);
+            return new Contact($result['id'], $result['nom'], $result['prenom'], $result['email'], $result['numeroTel']);
         }
 
         return null;

@@ -47,7 +47,7 @@
             <?php endforeach; ?>
         </ul>
 
-        <a href="createCategorie" class="btn btn-primary">Créer une Catégorie</a>
+        <a href="Categorie/createCategorie.php" class="btn btn-primary">Créer une Catégorie</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

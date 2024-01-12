@@ -18,7 +18,7 @@
     <div class="container">
         <h1 class="mt-5 mb-4">Créer Licencié</h1>
 
-        <form action="index.php?action=createLicencie" method="post">
+        <form action="../../index.php?page=listContact&action=createLicencie" method="post" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" class="form-control" id="nom" name="nom" required>

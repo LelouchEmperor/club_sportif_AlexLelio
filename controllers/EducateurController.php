@@ -8,123 +8,150 @@ class EducateurController {
     }
 
     public function display() {
-        $educateurs = $this->educateurDAO->getAll();
-        include('View/Educateur/list.php');
+        $educateurs = $this->educateurDAO->getAllEducateurs();
+        include('View/Educateur/listEducateur.php');
     }
 
     public function createEducateur() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $name = $_POST['name'];
-            $surname = $_POST['surname'];
+            // Récupérer les données du formulaire
+            $licencieId = strtoupper(uniqid($_POST['email'], false));
+            
+            $password = password_hash($_POST['email'], PASSWORD_DEFAULT);
+            $admin = ($_POST['admin'] == 'Oui') ? true : false ;
             $email = $_POST['email'];
-            $phone = $_POST['phone'];
 
-            // Valider les données du formulaire, name et surname ne doivent pas être des chiffres, email doit être un email valide, phone doit être un numéro de téléphone valide
-            if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                $nameErr = "Seuls les lettres et les espaces sont autorisés";
-            }
-
-            if (!preg_match("/^[a-zA-Z ]*$/", $surname)) {
-                $surnameErr = "Seuls les lettres et les espaces sont autorisés";
-            }
-
+            // Valider les données du formulaire 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = "Format d'email invalide";
             }
 
-            if (!preg_match("/^[0-9]{10}$/", $phone)) {
-                $phoneErr = "Format de numéro de téléphone invalide";
+            // Pas de chaine vide autorisée
+            if (empty($email)) {
+                $emailErr = "L'email est requis";
             }
 
-            // Pas de chaine vide autorisée
-            if (empty($name) && empty($surname) && empty($email) && empty($phone)) {
-                $nameErr = "Le nom, le prénom, l'email et le numéro de téléphone sont requis";
-            }
-            
-            $newContact = new Contact(0, $name, $surname, $email, $phone);
-            if ($this->contactDAO->addContact($newContact)) {
-                $path = "index.php?page=listContact&action=index";
-                header('Location:'. $path);
+            // Ajouter le contact
+
+            $newEducateur = new Educateur(0, $licencieId ,$email ,$password, $admin);
+            if ($this->educateurDAO->createEducateur($newEducateur)) {
+                header('Location: index.php?page=educateur&action=display');
                 exit();
             } else {
-                echo "Problème rencontré lors de l'ajout du contact";
+                echo "Problème rencontré lors de l'ajout de l'éducateur";
             }
         }
 
-        // Inclure la vue pour afficher le formulaire d'ajout de contact
-        include('view/Contact/createContact.php');;
+        include('view/Educateur/createEducateur.php');;
     }
 
-    public function updateEducateur($contactId) {
-        $contact = $this->contactDAO->getById($contactId);
+    public function updateEducateur($educateurId) {
+        $educateur = $this->educateurDAO->getById($educateurId);
 
-        if (!$contact) {
-            echo "Aucun contact n'a été trouvé avec l'identifiant $contactId";
+        $recupLicencie = new LicencieDAO(new Connexion);
+        $licencie = $recupLicencie->getById($educateur->getLicencieID());
+        $licencies = $recupLicencie->getAllLicencies();
+        
+        
+        if (!$educateur) {
+            echo "Le contact n'a pas été trouvé.";
             return;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $surname = $_POST['surname'];
+            $licencieId = strtoupper(uniqid($_POST['email'], false));
+            
             $email = $_POST['email'];
-            $phone = $_POST['phone'];
+            $admin = ($_POST['admin'] == 'Oui') ? true : false ;
 
-            // Valider les données du formulaire, name et surname ne doivent pas être des chiffres, email doit être un email valide, phone doit être un numéro de téléphone valide
-            if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-                $nameErr = "Seuls les lettres et les espaces sont autorisés";
-            }
-
-            if (!preg_match("/^[a-zA-Z ]*$/", $surname)) {
-                $surnameErr = "Seuls les lettres et les espaces sont autorisés";
-            }
-
+            // Valider les données du formulaire (ajoutez des validations si nécessaire)
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = "Format d'email invalide";
             }
 
-            if (!preg_match("/^[0-9]{10}$/", $phone)) {
-                $phoneErr = "Format de numéro de téléphone invalide";
-            }
-
             // Pas de chaine vide autorisée
-            if (empty($name) && empty($surname) && empty($email) && empty($phone)) {
-                $nameErr = "Le nom, le prénom, l'email et le numéro de téléphone sont requis";
+            if (empty($email)) {
+                $emailErr = "L'email est requis";
             }
 
-            $contact->setName($name);
-            $contact->setSurname($surname);
-            $contact->setEmail($email);
-            $contact->setPhone($phone);
+            // Mise a jour des données pour ceux du formulaire
 
-            if ($this->contactDAO->updateContact($contact)) {
-                header('Location:index.php?page=listContact&action=index');
+            $educateur->setLicencieID($licencieId);
+            $educateur->setEmail($email);
+            $educateur->setEstAdmin($admin);
+
+            if ($this->educateurDAO->updateEducateur($educateur)) {
+                header('Location:index.php?page=educateur&action=display');
                 exit();
             } else {
                 // Gérer les erreurs de mise à jour du contact
                 echo "Problème rencontré lors de la mise à jour du contact";
             }
         }
-        include('view/Contact/updateContact.php');
+        include('view/Educateur/updateEducateur.php');
     }
 
-    public function deleteContact($contactId) {
-        $contact = $this->contactDAO->getById($contactId);
+    public function deleteContact($educateurId) {
+        $educateur = $this->educateurDAO->getById($educateurId);
 
-        if (!$contact) {
-            echo "Aucun contact n'a été trouvé avec l'identifiant $contactId";
+        if (!$educateur) {
+            echo "Aucun contact n'a été trouvée avec l'identifiant $educateurId";
             return;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($this->contactDAO->deleteContact($contactId)) {
-                header('Location:index.php?page=listContact&action=index');
+            if ($this->educateurDAO->deleteEducateur($educateurId)) {
+                $path = "index.php?page=educateur&action=display";
+                header('Location:'. $path);
                 exit();
             } else {
                 // Gérer les erreurs de suppression du contact
                 echo "Problème rencontré lors de la suppression du contact";
             }
         }
+    }
+    
+
+    public function login(){
+
+        //Ouverture de la session
+        session_start();
+
+            //Vérification de données de connection 
+
+            if (isset($_POST['email']) && isset($_POST['mot_de_passe'])) {
+                $login = $_POST['email'];
+                $password = $_POST['mot_de_passe'];
+                
+                $user = $this->educateurDAO->getByEmail($login);
+                
+                if ($user && password_verify($password, $user['mot_de_passe']) && $user['est_admin']) {
+                    
+                    //Génération d'un token pour la session
+                    $token = bin2hex(random_bytes(32));
+
+                    $_SESSION['connected'] = $login;
+                    $_SESSION['token'] = $token;
+                    header('Location: index.php?page=home&action=display');
+                    exit();
+                } else {
+
+                   // si soit le login soit le mot de passe est incorrect, on redirige vers la page de login avec un message d'erreur
+                    header('Location: view/Authentification/login.php?erreur=loginORmdp');
+                    exit();
+                }
+            }
+        
+        header('Location: view/Autentification/login.php');
+        exit();
+    }
+        
+    //fonction permettant de se déconnecter de la session en cours et d'ainsi supprimer les droits d'accès à l'application
+    public function logout(){
+        session_start();
+        session_destroy();
+        header('Location:pageDaccueil.php');
+        exit();
     }
 
     

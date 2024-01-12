@@ -9,7 +9,7 @@ class LicencieController {
 
     public function display(){
         $licencies = $this->licencieDAO->getAllLicencies();
-        include('View/Licencie/list.php'); 
+        include('View/Licencie/listLicencie.php'); 
     }
     
     public function createLicencie() {

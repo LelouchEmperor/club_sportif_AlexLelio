@@ -1,22 +1,20 @@
 <?php
 
-namespace Model;
-
 class Educateur
 {
     private $id;
     private $licencieID;
     private $email;
     private $motDePasse;
-    private $estAdministrateur;
+    private $estAdmin;
 
-    public function __construct($id, $licencieID, $email, $motDePasse, $estAdministrateur)
+    public function __construct($id, $licencieID, $email, $motDePasse, $estAdmin)
     {
         $this->id = $id;
         $this->licencieID = $licencieID;
         $this->email = $email;
         $this->motDePasse = $motDePasse;
-        $this->estAdministrateur = $estAdministrateur;
+        $this->estAdmin = $estAdmin;
     }
 
     public function getId()
@@ -39,9 +37,9 @@ class Educateur
         return $this->motDePasse;
     }
 
-    public function getEstAdministrateur()
+    public function getEstAdmin()
     {
-        return $this->estAdministrateur;
+        return $this->estAdmin;
     }
 
     public function setId($id)
@@ -63,9 +61,9 @@ class Educateur
         $this->motDePasse = $motDePasse;
     }
 
-    public function setEstAdministrateur($estAdministrateur)
+    public function setEstAdmin($estAdmin)
     {
-        $this->estAdministrateur = $estAdministrateur;
+        $this->estAdmin = $estAdmin;
     }
 }
 ?>

@@ -46,13 +46,13 @@
                 <li>
                     <strong><?php echo htmlspecialchars($licencie->getNom()); ?></strong>
                     (<?php echo htmlspecialchars($licencie->getPrenom()); ?>)
-                    <a href="index.php?action=displayFormUpdateLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="index.php?action=deleteLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette licencie ?')">Supprimer</a>
+                    <a href="index.php?page=licencie&action=editLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="index.php?page=licencie&action=deleteLicencie&id=<?php echo $licencie->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette licencie ?')">Supprimer</a>
                 </li>
             <?php endforeach; ?>
         </ul>
 
-        <a href="createLicencie" class="btn btn-primary">Créer un Licencié</a>
+        <a href="Licencie/createLicencie.php" class="btn btn-primary">Créer un Licencié</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

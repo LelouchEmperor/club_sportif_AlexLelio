@@ -10,24 +10,6 @@
 <body>
     
 
-    <?php
-
-    if (isset($_GET['erreur'])) {
-        $erreur = $_GET['erreur'];
-        switch ($erreur) {
-            case 1:
-                echo "<p style='color: red;'>Identifiants incorrects.</p>";
-                break;
-            case 2:
-                echo "<p style='color: red;'>Vous n'avez pas les droits d'administration.</p>";
-                break;
-            default:
-                echo "<p style='color: red;'>Une erreur inconnue s'est produite.</p>";
-                break;
-        }
-    }
-    ?>
-
 <form action="../../index.php?page=educateur&action=login" method="post">
             <h1>Connexion</h1>
             <div class="form-group">
@@ -39,7 +21,14 @@
                 <label for="mot_de_passe">Mot de Passe:</label>
                 <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control" required>
             </div>
+            <?php
 
+            if (isset($_GET['erreur'])) {
+                $err = $_GET['erreur'];
+                if ($err == 'loginORmdp')
+                    echo "<p class='error'>Utilisateur ou mot de passe incorrect</p>";
+            }
+            ?>
             <button type="submit" href='' class="btn btn-primary">Se Connecter</button>
         </form>
     </div>

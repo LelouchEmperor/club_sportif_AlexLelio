@@ -17,12 +17,19 @@
     require_once("models/Educateur.php");
     require_once("DAO/EducateurDAO.php");
 
- // routage des pages
+ // Le routage se passe ici
+ // On recupere les parametres de l'url et on les affecte aux variables $page et $action
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
         } else {
-        $page = 'accueil'; 
+        $page = 'pageDaccueil'; 
     }
+
+    if (isset($_GET['action'])) {
+        $action = $_GET['action'];
+        } else {
+        $action = 'display';
+        }
 
     //creation des instances de connexion et des DAO
     $categorieDAO= new CategorieDAO(new Connexion());
@@ -36,7 +43,7 @@
         'contact' => 'ContactController',
         'educateur' => 'EducateurController',
         'categorie' => 'CategorieController',
-        'home' => 'HomeController',
+        'accueil' => 'AccueilController',
     ];
 
     if (array_key_exists($page, $controllers)) {
@@ -56,13 +63,12 @@
             case 'EducateurController':
                 $controller = new $controllerName($educateurDAO);
                 break;
-            case 'HomeController':
-                $controller = new $controllerName($educateurDAO, $contactDAO, $categorieDAO, $licenceDAO);
-                break;
         }
 
          $controller->$action(isset($_GET['id'])?$_GET['id']:null); 
     } else {
         include('pageDaccueil.php');
-    } 
+    }
+
+
 ?>

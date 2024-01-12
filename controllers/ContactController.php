@@ -13,12 +13,12 @@ class ContactController {
         include('view/Contact/listContact.php'); 
 
     }
-    public function createContact($contactId) {
+    public function createContact() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $surname = $_POST['surname'];
+            $name = $_POST['nom'];
+            $surname = $_POST['prenom'];
             $email = $_POST['email'];
-            $phone = $_POST['phone'];
+            $phone = $_POST['numeroTel'];
 
             if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
                 $nameErr = "Seuls les lettres et les espaces sont autorisés";
@@ -42,8 +42,8 @@ class ContactController {
             }
 
             $newContact = new Contact(0, $name, $surname, $email, $phone);
-            if ($this->contactDAO->addContact($newContact)) {
-                $path = "index.php?page=listContact&action=index";
+            if ($this->contactDAO->createContact($newContact)) {
+                $path = "index.php?page=contact&action=display";
                 header('Location:'. $path);
                 exit();
             } else {
@@ -51,9 +51,9 @@ class ContactController {
             }
         }
 
-        // Inclure la vue pour afficher le formulaire d'ajout de contact
-        include('html/contact/add-contact.php');
+        include('view/Contact/createContact.php');
     }
+
 
     
 

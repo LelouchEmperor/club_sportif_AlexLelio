@@ -19,7 +19,7 @@
     <div class="container">
         <h1 class="mt-5 mb-4">Créer Contact</h1>
 
-        <form action="index.php?action=createContact" method="post">
+        <form action="../../index.php?page=contact&action=createContact" method="post">
             <div class="form-group">
                 <label for="nom">Nom :</label>
                 <input type="text" class="form-control" id="nom" name="nom" required>
@@ -36,16 +36,16 @@
             </div>
 
             <div class="form-group">
-                <label for="numero_tel">Numéro de Téléphone :</label>
-                <input type="tel" class="form-control" id="numero_tel" name="numero_tel" required>
+                <label for="numeroTel">Numéro de Téléphone :</label>
+                <input type="tel" class="form-control" id="numeroTel" name="numeroTel" required>
             </div>
 
             <!-- Ajoutez un champ masqué pour l'ID (qui sera vide pour une création) -->
             <input type="hidden" name="id" value="">
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Créer</button>
-                <a href="listeContacts" class="btn btn-secondary">Annuler</a>
+                <button type="submit" name="action" class="btn btn-primary">Créer</button>
+                <a href="../../index.php?page=contact&action=display" class="btn btn-secondary">Annuler</a>
             </div>
         </form>
     </div>

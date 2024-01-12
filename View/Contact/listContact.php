@@ -35,22 +35,25 @@
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1 class="mb-3">Liste des Contacts</h1>
 
         <ul>
-            <?php foreach ($contacts as $contact): ?>
+            <?php  foreach ($contacts as $contact): ?>
                 <li>
-                    <strong><?php echo htmlspecialchars($contact->getNom()); ?></strong>
+                    <strong>(<?php echo $contact->getId() ;  ?>)</strong>
+                    <?php echo htmlspecialchars($contact->getNom()); ?>
                     (<?php echo htmlspecialchars($contact->getPrenom()); ?>)
                     (<?php echo htmlspecialchars($contact->getEmail()); ?>)
-                    <a href="index.php?action=displayFormUpdateContact&id=<?php echo $contact->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="index.php?action=deleteContact&id=<?php echo $contact->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette contact ?')">Supprimer</a>
+                    (<?php echo htmlspecialchars($contact->getTelephone()); ?>)
+                    <a href="index.php?page=contact&action=updateContact&id=<?php echo $contact->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="index.php?page=contact&action=deleteContact&id=<?php echo $contact->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette contact ?')">Supprimer</a>
                 </li>
             <?php endforeach; ?>
         </ul>
 
-        <a href="createContact" class="btn btn-primary">Créer un Contact</a>
+        <a href="Contact/createContact.php" class="btn btn-primary">Créer un Contact</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

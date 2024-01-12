@@ -1,7 +1,5 @@
 <?php
 
-namespace Model;
-
 class Licencie
 {
     private $id;

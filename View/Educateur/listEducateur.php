@@ -44,17 +44,16 @@
                         // Accéder à l'objet Licencie associé à l'éducateur
                         $licencie = $educateur->getLicencie();
                     ?>
-                    <strong><?php echo htmlspecialchars($licencie->getPrenom()); ?></strong>
-                    (<?php echo htmlspecialchars($licencie->getNom()); ?>)
+                    (<?php echo $educateur['contact']->getPhone() ; ?>)
                     (<?php echo htmlspecialchars($educateur->getEmail()); ?>)
                     (<?php echo htmlspecialchars($educateur->getCodeRaccourci()); ?>)
-                    <a href="index.php?action=displayFormUpdateEducateur&id=<?php echo $educateur->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="index.php?action=deleteEducateur&id=<?php echo $educateur->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette Educateur ?')">Supprimer</a>
+                    <a href="index.php?page=educateur&action=editEducateur&id=<?php echo $educateur['educ']->getId(); ?>" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="index.php?page=educateur&action=deleteEducateur&id=<?php echo $educateur['educ']->getId(); ?>" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette Educateur ?')">Supprimer</a>
                 </li>
             <?php endforeach; ?>
         </ul>
 
-        <a href="createEducateur" class="btn btn-primary">Créer un Educateur</a>
+        <a class="btn btn-primary" href="Educateur/createEducateur.php">Créer un Educateur</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

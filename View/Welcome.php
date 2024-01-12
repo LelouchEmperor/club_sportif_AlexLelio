@@ -15,16 +15,16 @@
         <!-- Liste améliorée avec des éléments stylisés -->
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="Educateur/listEducateur" class="btn btn-primary btn-block">Liste des Educateurs</a>
+                <a href="index.php?page=educateur&action=display" class="btn btn-primary btn-block">Liste des Educateurs</a>
             </li>
             <li class="list-group-item">
-                <a href="Categorie/listCategorie" class="btn btn-success btn-block">Liste des Catégories</a>
+                <a href="index.php?page=categorie&action=display" class="btn btn-success btn-block">Liste des Catégories</a>
             </li>
             <li class="list-group-item">
-                <a href="Contact/listContact" class="btn btn-warning btn-block">Liste des Contacts</a>
+                <a href="index.php?page=contact&action=display" class="btn btn-warning btn-block">Liste des Contacts</a>
             </li>
             <li class="list-group-item">
-                <a href="/Licencie/listLicencie.php" class="btn btn-danger btn-block">Liste des Licenciés</a>
+                <a href="index.php?page=licencie&action=display" class="btn btn-danger btn-block">Liste des Licenciés</a>
             </li>
         </ul>
     </div>
