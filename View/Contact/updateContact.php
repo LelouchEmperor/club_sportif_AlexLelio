@@ -36,15 +36,15 @@
             </div>
 
             <div class="form-group">
-                <label for="numero_tel">Numéro de Téléphone :</label>
-                <input type="tel" class="form-control" id="numero_tel" name="numeroTel" required>
+                <label for="numeroTel">Numéro de Téléphone :</label>
+                <input type="tel" class="form-control" id="numeroTel" name="numeroTel" required>
             </div>
 
             <!-- Ajoutez un champ masqué pour l'ID -->
             <input type="hidden" name="id" value="">
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                <button type="submit" name="action" class="btn btn-primary">Sauvegarder</button>
                 <a href="listeContacts" class="btn btn-secondary">Annuler</a>
             </div>
         </form>

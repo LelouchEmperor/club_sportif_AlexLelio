@@ -43,7 +43,7 @@
         'contact' => 'ContactController',
         'educateur' => 'EducateurController',
         'categorie' => 'CategorieController',
-        'accueil' => 'AccueilController',
+        'welcome' => 'WelcomeController',
     ];
 
     if (array_key_exists($page, $controllers)) {

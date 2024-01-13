@@ -35,28 +35,30 @@ class CategorieDAO {
     }
 
     public function updateCategorie(Categorie $categorie) {
-        $id = $categorie->getId();
-        $nom = $categorie->getNom();
-        $codeRaccourci = $categorie->getCodeRaccourci();
-
-
-        // requete preparee pour la mise a jour de la categorie
-        $query = "UPDATE categorie SET nom=:nom, codeRaccourci=:codeRaccourci WHERE id=:id";
-        $stmt = $this->connexion->pdo->prepare($query);
-        $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
-        $stmt->bindValue(":codeRaccourci", $codeRaccourci, PDO::PARAM_STR);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-
-        return $stmt->execute();
+        try {
+            $stmt = $this->connexion->pdo->prepare("UPDATE categorie SET nom = ?, codeRaccourci = ? WHERE id = ?");
+            $stmt->execute([$categorie->getNom(), $categorie->getCodeRaccourci(), $categorie->getId()]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        } 
     }
 
     public function deleteCategorie($id) {
-        // requete preparee pour la suppression de la categorie
-        $query = "DELETE FROM categorie WHERE id=:id";
-        $stmt = $this->connexion->pdo->prepare($query);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        try {
+            $query = "DELETE FROM categorie WHERE id = ?";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([$id]);
 
-        return $stmt->execute();
+            $updateLicencies = "UPDATE licencie SET categorie_id = '' WHERE categorie_id = :id";
+            $stmtUpdateLicencies = $this->pdo->prepare($updateLicencies);
+            $stmtUpdateLicencies->bindParam(':id', $id);
+            $stmtUpdateLicencies->execute();
+            return true;
+        } catch (PDOException $e) {
+
+            return false;
+        }
     }
 
     public function getById($id) {

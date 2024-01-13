@@ -17,46 +17,44 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5 mb-4">Créer Éducateur</h1>
+        <h1 class="mt-5 mb-4">Créer un Éducateur</h1>
 
-        <form action="../../index.php?page=educateur&action=createEducateur" method="post">
-            <div class="form-group">
-                <label for="nom">Nom :</label>
-                <input type="text" class="form-control" id="nom" name="nom" required>
-            </div>
+        <form action="../../index.php?action=updateEducateur&page=educateur&id=<?php echo $educateur->getId(); ?>" method="post">
+    <?php if (!empty($licencies) && is_array($licencies)): ?>
+        <label for="nom_categorie" class="form-label">Licencié:</label>
+        <select class="selectpicker form-control" required name="licencieID">
+            <option>Choisissez le licencié</option>
+            <?php foreach ($licencies as $licencie): ?>
+                <option value="<?php echo $licencie->getId(); ?>"><?php echo $licencie->getNom() . " " . $licencie->getPrenom(); ?></option>
+            <?php endforeach; ?> 
+        </select>
 
-            <div class="form-group">
-                <label for="prenom">Prénom :</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" required>
-            </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" required name="email" placeholder="Entrez l'email">
+        </div>
 
-            <div class="form-group">
-                <label for="email">Email :</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
+        <div class="form-group">
+            <label for="password">Mot de passe:</label>
+            <input type="password" class="form-control" required name="password" placeholder="Entrez le mot de passe">
+        <div class="form-group">
 
-            <div class="form-group">
-                <label for="numero_tel">Numéro de Téléphone :</label>
-                <input type="tel" class="form-control" id="numeroTel" name="numeroTel" required>
-            </div>
+            <label for="admin">Administrateur:</label>
+            <select class="selectpicker form-control" required name="admin">
+                <option>Voulez-vous que cette personne soit admin ?</option>
+                <option value="Oui">Oui</option>
+                <option value="Non">Non</option>
+            </select>
 
-            <div class="form-group">
-                <label for="motDePasse">Mot de Passe :</label>
-                <input type="password" class="form-control" id="motDePasse" name="motDePasse" required>
-            </div>
+        </div>
 
-            <div class="form-group">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="admin" name="admin">
-                    <label class="form-check-label" for="admin">Administrateur</label>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Créer</button>
-                <a href="../../index.php?page=educateur&action=display" class="btn btn-secondary">Annuler</a>
-            </div>
-        </form>
+        <button type="submit" class="btn btn-primary" name="action">Créer</button>
+        <button type="reset" class="btn btn-secondary">Annuler</button>
+            </form>
+    <?php else: ?>
+        <p>Aucun licencié disponible.</p>
+    <?php endif; ?>
+</form>
     </div>
 
     <!-- Ajouter le lien vers Bootstrap JS et jQuery pour les fonctionnalités avancées -->

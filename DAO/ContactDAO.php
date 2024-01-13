@@ -28,7 +28,6 @@ class ContactDAO {
             $stmt->execute([$contact->getNom(), $contact->getPrenom(), $contact->getEmail(), $contact->getNumeroTel()]);
             return true;
         } catch (PDOException $e) {
-            // Gestion des erreurs d'insertion
             echo $e;
             return false;
         }
@@ -36,21 +35,13 @@ class ContactDAO {
     
 
     public function updateContact(Contact $contact) {
-        $id = $contact->getId();
-        $nom = $contact->getNom();
-        $prenom = $contact->getPrenom();
-        $email = $contact->getEmail();
-        $numeroTel = $contact->getNumeroTel();
-
-        $query = "UPDATE contact SET nom=:nom, prenom=:prenom, email=:email, numero_tel=:numero_tel WHERE id=:id";
-        $stmt = $this->connexion->pdo->prepare($query);
-        $stmt->bindValue(":nom", $nom, PDO::PARAM_STR);
-        $stmt->bindValue(":prenom", $prenom, PDO::PARAM_STR);
-        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
-        $stmt->bindValue(":numero_tel", $numeroTel, PDO::PARAM_STR);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-
-        return $stmt->execute();
+        try {
+            $stmt = $this->connexion->pdo->prepare("UPDATE contact SET nom = ?, prenom = ?, email = ?, numeroTel = ? WHERE id = ?");
+            $stmt->execute([$contact->getNom(), $contact->getPrenom(), $contact->getEmail(), $contact->getNumeroTel(), $contact->getId()]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public function deleteContact($contactId) {

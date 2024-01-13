@@ -1,5 +1,4 @@
 <?php
-
 class EducateurController {
     private $educateurDAO;
 
@@ -16,21 +15,17 @@ class EducateurController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupérer les données du formulaire
             $licencieId = strtoupper(uniqid($_POST['email'], false));
-            
             $password = password_hash($_POST['email'], PASSWORD_DEFAULT);
             $admin = ($_POST['admin'] == 'Oui') ? true : false ;
             $email = $_POST['email'];
-
             // Valider les données du formulaire 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = "Format d'email invalide";
             }
-
             // Pas de chaine vide autorisée
             if (empty($email)) {
                 $emailErr = "L'email est requis";
             }
-
             // Ajouter le contact
 
             $newEducateur = new Educateur(0, $licencieId ,$email ,$password, $admin);
@@ -51,35 +46,25 @@ class EducateurController {
         $recupLicencie = new LicencieDAO(new Connexion);
         $licencie = $recupLicencie->getById($educateur->getLicencieID());
         $licencies = $recupLicencie->getAllLicencies();
-        
-        
         if (!$educateur) {
             echo "Le contact n'a pas été trouvé.";
             return;
         }
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $licencieId = strtoupper(uniqid($_POST['email'], false));
-            
             $email = $_POST['email'];
             $admin = ($_POST['admin'] == 'Oui') ? true : false ;
-
-            // Valider les données du formulaire (ajoutez des validations si nécessaire)
+            // Valider les données du formulaire 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $emailErr = "Format d'email invalide";
             }
-
             // Pas de chaine vide autorisée
             if (empty($email)) {
                 $emailErr = "L'email est requis";
             }
-
-            // Mise a jour des données pour ceux du formulaire
-
             $educateur->setLicencieID($licencieId);
             $educateur->setEmail($email);
             $educateur->setEstAdmin($admin);
-
             if ($this->educateurDAO->updateEducateur($educateur)) {
                 header('Location:index.php?page=educateur&action=display');
                 exit();
@@ -98,7 +83,6 @@ class EducateurController {
             echo "Aucun contact n'a été trouvée avec l'identifiant $educateurId";
             return;
         }
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($this->educateurDAO->deleteEducateur($educateurId)) {
                 $path = "index.php?page=educateur&action=display";
@@ -113,38 +97,30 @@ class EducateurController {
     
 
     public function login(){
-
-        //Ouverture de la session
-        session_start();
-
-            //Vérification de données de connection 
-
-            if (isset($_POST['email']) && isset($_POST['mot_de_passe'])) {
-                $login = $_POST['email'];
-                $password = $_POST['mot_de_passe'];
-                
-                $user = $this->educateurDAO->getByEmail($login);
-                
-                if ($user && password_verify($password, $user['mot_de_passe']) && $user['est_admin']) {
-                    
-                    //Génération d'un token pour la session
-                    $token = bin2hex(random_bytes(32));
-
-                    $_SESSION['connected'] = $login;
-                    $_SESSION['token'] = $token;
-                    header('Location: index.php?page=home&action=display');
-                    exit();
-                } else {
-
-                   // si soit le login soit le mot de passe est incorrect, on redirige vers la page de login avec un message d'erreur
-                    header('Location: view/Authentification/login.php?erreur=loginORmdp');
-                    exit();
-                }
+        if (isset($_POST['email']) && isset($_POST['motDePasse'])) {
+            $login = $_POST['email'];
+            $password = $_POST['motDePasse'];
+            $user = $this->educateurDAO->getByEmail($login);
+    
+            if ($user && password_verify($password, $user['motDePasse']) && $user['isAdmin']) {
+                //Génération d'un token pour la session
+                $token = bin2hex(random_bytes(32));
+                $_SESSION['connected'] = $login;
+                $_SESSION['token'] = $token;
+    
+                // Appel de header avant tout affichage de contenu
+                header('Location: index.php?page=welcome&action=display');
+                exit();
+            } else {
+                // si soit le login soit le mot de passe est incorrect, on redirige vers la page de login avec un message d'erreur
+                header('Location: view/Authentification/login.php?erreur=loginORmdp');
+                exit();
             }
-        
-        header('Location: view/Autentification/login.php');
+        }
+            header('Location: view/Autentification/login.php');
         exit();
     }
+    
         
     //fonction permettant de se déconnecter de la session en cours et d'ainsi supprimer les droits d'accès à l'application
     public function logout(){
@@ -154,5 +130,10 @@ class EducateurController {
         exit();
     }
 
+    public function displayChoiseLicencie(){
+        $recupLicencie = new LicencieDAO(new Connexion);
+        $licencies = $recupLicencie->getAllLicencieBis();
+        include('view/Educateur/createEducateur.php');
+    }
     
 }

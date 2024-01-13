@@ -12,7 +12,7 @@
   <div class="container text-center">
     <h1 class="display-4">Bienvenue au Club Gapito</h1>
     <p class="lead">Découvrez la passion du sport avec nous</p>
-    <a class="btn btn-primary btn-lg" href="view/Welcome.php" role="button">Se connecter</a>
+    <a class="btn btn-primary btn-lg" href="view/Authentification/login.php" role="button">Se connecter</a>
   </div>
   
   

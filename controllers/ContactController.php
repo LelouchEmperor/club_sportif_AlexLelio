@@ -66,17 +66,17 @@ class ContactController {
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'];
-            $surname = $_POST['surname'];
+            $nom = $_POST['nom'];
+            $prenom = $_POST['prenom'];
             $email = $_POST['email'];
-            $phone = $_POST['phone'];
+            $numeroTel = $_POST['numeroTel'];
 
             // Valider les données du formulaire, le nom et le prénom ne doivent pas être des chiffres, l'email doit être un email valide et le phone doit être un numéro de téléphone valide
-            if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+            if (!preg_match("/^[a-zA-Z ]*$/", $nom)) {
                 $nameErr = "Seuls les lettres et les espaces sont autorisés";
             }
 
-            if (!preg_match("/^[a-zA-Z ]*$/", $surname)) {
+            if (!preg_match("/^[a-zA-Z ]*$/", $prenom)) {
                 $surnameErr = "Seuls les lettres et les espaces sont autorisés";
             }
 
@@ -84,7 +84,7 @@ class ContactController {
                 $emailErr = "Format d'email invalide";
             }
 
-            if (!preg_match("/^[0-9]{10}$/", $phone)) {
+            if (!preg_match("/^[0-9]{10}$/", $numeroTel)) {
                 $phoneErr = "Format de numéro de téléphone invalide";
             }
 
@@ -94,13 +94,13 @@ class ContactController {
             }
 
             // Mettre à jour les détails du contact
-            $contact->setName($name);
-            $contact->setSurname($surname);
+            $contact->setNom($nom);
+            $contact->setPrenom($prenom);
             $contact->setEmail($email);
-            $contact->setPhone($phone);
+            $contact->setNumeroTel($numeroTel);
 
             if ($this->contactDAO->updateContact($contact)) {
-                header('Location:index.php?page=listContact&action=index');
+                header('Location:index.php?page=contact&action=display');
                 exit();
             } else {
                 echo "Problème rencontré lors de la mise à jour du contact";
@@ -116,10 +116,9 @@ class ContactController {
             echo "Aucun contact n'a été trouvé avec l'identifiant $contactId";
             return;
         }
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($this->contactDAO->deleteContact($contactId)) {
-                $path = "index.php?page=listContact&action=index";
+                $path = "index.php?page=contact&action=display";
                 header('Location:'. $path);
                 exit();
             } else {

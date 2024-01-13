@@ -18,8 +18,8 @@
             </div>
 
             <div class="form-group">
-                <label for="mot_de_passe">Mot de Passe:</label>
-                <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-control" required>
+                <label for="motDePasse">Mot de Passe:</label>
+                <input type="password" id="motDePasse" name="motDePasse" class="form-control" required>
             </div>
             <?php
 

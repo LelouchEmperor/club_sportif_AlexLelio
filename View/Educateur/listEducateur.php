@@ -63,7 +63,7 @@
     </tbody>
 </table>
 
-        <a class="btn btn-primary" href="Educateur/createEducateur.php">Créer un Educateur</a>
+        <a class="btn btn-primary" href="index.php?page=educateur&action=displayChoiseLicencie">Créer un Educateur</a>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

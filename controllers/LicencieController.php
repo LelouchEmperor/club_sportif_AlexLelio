@@ -48,7 +48,7 @@ class LicencieController {
 
             $newLicencie = new Licencie(0, $nom, $prenom, $numeroLicence, $contactId, $categorieId);
             if ($this->licencieDAO->createLicencie($newLicencie)) {
-                $path = "index.php?page=listLicencie&action=index";
+                $path = "index.php?page=licencie&action=display";
                 header('Location:'. $path);
                 exit();
             } else {
@@ -95,7 +95,7 @@ class LicencieController {
 
             $newLicencie = new Licencie($id, $nom, $prenom, $numeroLicence, $contactId, $categorieId);
             if ($this->licencieDAO->updateLicencie($newLicencie)) {
-                $path = "index.php?page=listLicencie&action=index";
+                $path = "index.php?page=licencie&action=display";
                 header('Location:'. $path);
                 exit();
             } else {
@@ -117,7 +117,7 @@ class LicencieController {
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($this->licencieDAO->deleteLicencie($licencieId)) {
-                $path = "index.php?page=listLicencie&action=index";
+                $path = "index.php?page=licencie&action=display";
                 header('Location:'. $path);
                 exit();
             } else {
