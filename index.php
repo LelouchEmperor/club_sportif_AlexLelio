@@ -1,52 +1,54 @@
 <?php
 
-    // FICHIER CENTRALE DE L'APPLICATION
-    // Il gere le routage et l'instanciation des classes
+require_once("config/config.php");
+require_once("models/Connexion.php");
+require_once("models/Categorie.php");
+require_once("DAO/CategorieDAO.php");
+require_once("models/Contact.php");
+require_once("DAO/ContactDAO.php");
+require_once("models/Licencie.php");
+require_once("DAO/LicencieDAO.php");
+require_once("models/Educateur.php");
+require_once("DAO/EducateurDAO.php");
+require_once("models/MailEdu.php");
+require_once("DAO/MailEduDAO.php");
+require_once("models/MailContact.php");
+require_once("DAO/MailContactDAO.php");
 
- 
-    require_once("config/config.php");
-    require_once("models/Connexion.php");
+// création des instances de connexion et des DAO
+$categorieDAO = new CategorieDAO(new Connexion());
+$contactDAO = new ContactDAO(new Connexion());
+$educateurDAO = new EducateurDAO(new Connexion());
+$licenceDAO = new LicencieDAO(new Connexion());
+$mailEduDAO = new MailEduDAO(new Connexion());
+$mailContactDAO = new MailContactDAO(new Connexion());
 
-    //catalogue des classes DAO et modeles
-    require_once("models/Categorie.php");
-    require_once("DAO/CategorieDAO.php");
-    require_once("models/Contact.php");
-    require_once("DAO/ContactDAO.php");
-    require_once("models/Licencie.php");
-    require_once("DAO/LicencieDAO.php");
-    require_once("models/Educateur.php");
-    require_once("DAO/EducateurDAO.php");
+// définition des controllers
+$controllers = [
+    'licencie' => 'LicencieController',
+    'contact' => 'ContactController',
+    'educateur' => 'EducateurController',
+    'mailedu' => 'MailEduController',  
+    'mailcontact' => 'MailContactController',
+    'categorie' => 'CategorieController',
+    'welcome' => 'WelcomeController',
+];
 
- // Le routage se passe ici
- // On recupere les parametres de l'url et on les affecte aux variables $page et $action
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-        } else {
-        $page = 'pageDaccueil'; 
-    }
+// Le routage se passe ici
+// On récupère les paramètres de l'url et on les affecte aux variables $page et $action
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 'pageDaccueil'; 
+}
 
-    if (isset($_GET['action'])) {
-        $action = $_GET['action'];
-        } else {
-        $action = 'display';
-        }
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+} else {
+    $action = 'display';
+}
 
-    //creation des instances de connexion et des DAO
-    $categorieDAO= new CategorieDAO(new Connexion());
-    $contactDAO= new ContactDAO(new Connexion());
-    $educateurDAO= new EducateurDAO(new Connexion());
-    $licenceDAO= new LicencieDAO(new Connexion());
-
-    // definition des controllers
-    $controllers = [
-        'licencie' => 'LicencieController',
-        'contact' => 'ContactController',
-        'educateur' => 'EducateurController',
-        'categorie' => 'CategorieController',
-        'welcome' => 'WelcomeController',
-    ];
-
-    if (array_key_exists($page, $controllers)) {
+if (array_key_exists($page, $controllers)) {
     $controllerName = $controllers[$page];
     require_once('controllers/' . $controllerName . '.php');
 
@@ -63,15 +65,17 @@
         case 'EducateurController':
             $controller = new $controllerName($educateurDAO);
             break;
+        case 'MailEduController':
+            $controller = new $controllerName($mailEduDAO);
+            break;
+        case 'MailContactController':
+            $controller = new $controllerName($mailContactDAO);
+            break;
         case 'WelcomeController':
             $controller = new $controllerName($educateurDAO);
             break;
-            
     }
-    $controller->$action(isset($_GET['id'])?$_GET['id']:null); 
-    } else {
-        include('pageDaccueil.php');
-    }
-
-
-?>
+    $controller->$action(isset($_GET['id']) ? $_GET['id'] : null);
+} else {
+    include('pageDaccueil.php');
+}

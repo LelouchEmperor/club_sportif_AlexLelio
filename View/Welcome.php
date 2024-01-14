@@ -6,7 +6,6 @@ if (!isset($_SESSION['connected'])) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +34,19 @@ if (!isset($_SESSION['connected'])) {
             <li class="list-group-item">
                 <a href="index.php?page=licencie&action=display" class="btn btn-danger btn-block">Liste des Licenciés</a>
             </li>
+            <li class="list-group-item">
+                <a href="index.php?page=mailedu&action=display" class="btn btn-block btn-pink">Liste des emails éducateur</a>
+            </li>
+            <li class="list-group-item">
+                <a href="index.php?page=mailedu&action=sendMailForm" class="btn btn-block btn-pink">Envoyer mails aux éducateurs</a>
+            </li>
+            <li class="list-group-item">
+                <a href="index.php?page=mailcontact&action=display" class="btn btn-block btn-pink">Liste des emails contacts</a>
+            </li>
+
+
+
+
         </ul>
     </div>
 

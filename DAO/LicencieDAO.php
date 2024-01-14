@@ -45,7 +45,7 @@ class LicencieDAO {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($row) {
-                return new Licencie($row['id'], $row['numeroLicence'], $row['nom'], $row['prenom'], $row['contact_id'], $row['categorie_id']);
+                return new Licencie($row['id'], $row['numLicence'], $row['nom'], $row['prenom'], $row['contact_id'], $row['categorie_id']);
             } else {
                 return null; 
             }
